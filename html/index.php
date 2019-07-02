@@ -3,6 +3,7 @@ error_reporting(E_ALL);
 
 use Phalcon\Loader;
 use Phalcon\DI\FactoryDefault;
+use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Application;
@@ -18,6 +19,15 @@ try
     ])->register();
 
     $di = new FactoryDefault();
+
+    $di->set('router', function () use ($di, $config) {
+        $eventsManager = $di->getShared('eventsManager');
+        $router = new Router(false);
+        $router->setEventsManager($eventsManager);
+        $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
+        require $config->blog->projectDir . '/config/routes.php';
+        return $router;
+    });
 
     $di->setShared('dispatcher', function() use ($di) {
         $eventsManager = $di->getShared('eventsManager');

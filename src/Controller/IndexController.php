@@ -10,7 +10,17 @@ class IndexController extends Controller
     public function indexAction()
     {
         return $this->view->setVars([
-            'test' => 134,
+            'test' => 'indexPage',
         ]);
+    }
+
+    public function blogAction(int $page)
+    {
+        var_dump($page);
+    }
+
+    public function notFoundAction()
+    {
+        $this->response->setStatusCode(404, 'Not Found');
     }
 }
