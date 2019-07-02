@@ -10,11 +10,11 @@ use Phalcon\Mvc\Application;
 
 try
 {
-    $config = require __DIR__ . '/../blog/config/config.php';
+    $config = require __DIR__ . '/../config/config.php';
 
     $loader = new Loader();
     $loader->registerNamespaces([
-        'Blog' => $config->blog->projectDir . '/blog/src',
+        'Blog' => $config->blog->projectDir . '/src',
     ])->register();
 
     $di = new FactoryDefault();
@@ -30,7 +30,7 @@ try
     $di->set('view', function () use ($di, $config) {
         $view = new View();
         $view->setDI($di);
-        $view->setViewsDir($config->blog->projectDir . '/blog/views/');
+        $view->setViewsDir($config->blog->projectDir . '/views/');
 
         $view->registerEngines([
             '.phtml' => View\Engine\Php::class

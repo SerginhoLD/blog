@@ -3,6 +3,6 @@ use Phalcon\Config;
 
 return new Config([
     'blog' => [
-        'projectDir' => realpath(__DIR__ . '/../..'),
+        'projectDir' => realpath(__DIR__ . '/..'),
     ],
 ]);

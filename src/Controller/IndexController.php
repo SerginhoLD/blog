@@ -9,6 +9,8 @@ class IndexController extends Controller
 {
     public function indexAction()
     {
-        var_dump(1);
+        return $this->view->setVars([
+            'test' => 134,
+        ]);
     }
 }
