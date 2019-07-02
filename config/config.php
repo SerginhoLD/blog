@@ -1,8 +1,13 @@
 <?php
 use Phalcon\Config;
 
+$projectDir = realpath(__DIR__ . '/..');
+
 return new Config([
-    'blog' => [
-        'projectDir' => realpath(__DIR__ . '/..'),
+    'projectDir' => $projectDir,
+    'db' => [
+        'blog' => [
+            'dbname' => $projectDir . '/blog.db3',
+        ],
     ],
 ]);

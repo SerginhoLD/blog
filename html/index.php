@@ -7,7 +7,7 @@ use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Application;
-//use Phalcon\Db\Adapter\Pdo\Mysql as Database;
+use Phalcon\Db\Adapter\Pdo\Sqlite as Database;
 
 try
 {
@@ -15,7 +15,7 @@ try
 
     $loader = new Loader();
     $loader->registerNamespaces([
-        'Blog' => $config->blog->projectDir . '/src',
+        'Blog' => $config->projectDir . '/src',
     ])->register();
 
     $di = new FactoryDefault();
@@ -25,7 +25,7 @@ try
         $router = new Router(false);
         $router->setEventsManager($eventsManager);
         $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
-        require $config->blog->projectDir . '/config/routes.php';
+        require $config->projectDir . '/config/routes.php';
         return $router;
     });
 
@@ -40,7 +40,7 @@ try
     $di->set('view', function () use ($di, $config) {
         $view = new View();
         $view->setDI($di);
-        $view->setViewsDir($config->blog->projectDir . '/views/');
+        $view->setViewsDir($config->projectDir . '/views/');
 
         $view->registerEngines([
             '.phtml' => View\Engine\Php::class
@@ -49,17 +49,11 @@ try
         return $view;
     });
 
-    /*
     $di->set('db', function () use ($config) {
-        return new Database(
-            [
-                "host"     => $config->database->host,
-                "username" => $config->database->username,
-                "password" => $config->database->password,
-                "dbname"   => $config->database->name
-            ]
-        );
-    });*/
+        return new Database([
+            'dbname' => $config->db->blog->dbname,
+        ]);
+    });
 
     $application = new Application($di);
     $response = $application->handle();
