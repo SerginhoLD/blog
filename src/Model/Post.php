@@ -1,36 +1,71 @@
 <?php
-declare(strict_types = 1);
-
 namespace Blog\Model;
 
 use Phalcon\Mvc\Model;
 
-class Post extends Model
+/**
+ * Class Post
+ * @package Blog\Model
+ *
+ * @method static Post[] find($parameters = null)
+ * @method Tag[] getTags()
+ */
+class Post extends Model implements PostInterface
 {
     /**
      * @Primary
      * @Identity
      * @Column(type='integer', nullable=false)
      */
-    public $id;
+    private $id;
 
     /**
-     * @Column(type='string', nullable=false)
+     * @Column(type='varchar', length=255, nullable=false)
      */
-    public $slug;
+    private $slug;
 
     /**
-     * @Column(type='string', nullable=false)
+     * @Column(type='varchar', length=255, nullable=false)
      */
-    public $name;
+    private $name;
 
     public function initialize()
     {
         $this->setSource('post');
+
+        $this->hasManyToMany(
+            'id',
+            PostTag::class,
+            'post_id', 'tag_id',
+            Tag::class,
+            'id',
+            [
+                'alias' => 'tags',
+            ]
+        );
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
     }
 }
