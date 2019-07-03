@@ -3,8 +3,9 @@ declare(strict_types = 1);
 
 namespace Blog\Controller;
 
-use Blog\Model\Post;
 use Phalcon\Mvc\Controller;
+use Phalcon\Paginator\Adapter\Model as Paginator;
+use Blog\Model\Post;
 
 class IndexController extends Controller
 {
@@ -24,13 +25,27 @@ class IndexController extends Controller
 
         if (!$this->view->getCache()->exists($cacheKey))
         {
-            $this->view->setVars([
-                'test' => [
-                    'page' => $page,
-                    'test2',
-                ]
-            ]);
+            $this->view->setVars($this->getBlogVars($page));
         }
+    }
+
+    private function getBlogVars(int $page): array
+    {
+        $limit = 1; // todo
+
+        $data = (new Paginator([
+            'data'  => Post::find([
+                'order' => 'id DESC',
+            ]),
+            'limit' => $limit,
+            'page'  => $page,
+        ]))->paginate();
+
+        return [
+            'posts' => $data->items,
+            'page' => $page,
+            'totalPages' => $data->total_pages,
+        ];
     }
 
     public function notFoundAction()

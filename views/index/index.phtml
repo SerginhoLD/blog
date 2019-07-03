@@ -1,2 +1,23 @@
 <?php
-var_dump($test);
+use Blog\Model\PostInterface;
+
+/**
+ * @var PostInterface[] $posts
+ * @var int $page
+ * @var int $totalPages
+ */
+
+var_dump([
+    'page' => $page,
+    'totalPages' => $totalPages,
+]);
+
+foreach ($posts as $post)
+{
+    var_dump([
+        'id' => $post->getId(),
+        'slug' => $post->getSlug(),
+        'name' => $post->getName(),
+        'tags' => $post->getTags()->toArray(),
+    ]);
+}
