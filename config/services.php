@@ -46,7 +46,7 @@ $di->setShared('db', function () use ($config) {
         'dbname' => $config->database->dbname,
         'options' => [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-            \PDO::ATTR_PERSISTENT => true,
+            //\PDO::ATTR_PERSISTENT => true,
         ],
     ]);
 
