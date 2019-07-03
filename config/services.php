@@ -2,6 +2,7 @@
 use Phalcon\DI;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Dispatcher;
+use Phalcon\Cache;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Db\Adapter\Pdo\Sqlite as Database;
@@ -21,6 +22,16 @@ $di->setShared('dispatcher', function() use ($di) {
     $dispatcher->setEventsManager($eventsManager);
     $dispatcher->setDefaultNamespace('Blog\Controller');
     return $dispatcher;
+});
+
+$di->set('viewCache', function () use ($config) {
+    $frontCache = new Cache\Frontend\Output([
+        'lifetime' => 86400,
+    ]);
+
+    return new Cache\Backend\File($frontCache, [
+        'cacheDir' => $config->cacheDir . '/views/',
+    ]);
 });
 
 $di->set('view', function () use ($di, $config) {

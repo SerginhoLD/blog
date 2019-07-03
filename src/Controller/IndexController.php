@@ -3,20 +3,34 @@ declare(strict_types = 1);
 
 namespace Blog\Controller;
 
+use Blog\Model\Post;
 use Phalcon\Mvc\Controller;
 
 class IndexController extends Controller
 {
     public function indexAction()
     {
-        return $this->view->setVars([
-            'test' => 'indexPage',
-        ]);
+        $this->blogAction();
     }
 
-    public function blogAction(int $page)
+    public function blogAction(int $page = 1)
     {
-        var_dump($page);
+        $cacheKey = 'blog-' . $page;
+        $this->view->pick('index/index');
+
+        $this->view->cache([
+            'key' => $cacheKey,
+        ]);
+
+        if (!$this->view->getCache()->exists($cacheKey))
+        {
+            $this->view->setVars([
+                'test' => [
+                    'page' => $page,
+                    'test2',
+                ]
+            ]);
+        }
     }
 
     public function notFoundAction()
