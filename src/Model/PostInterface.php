@@ -27,10 +27,25 @@ interface PostInterface
     /**
      * @return string|null
      */
+    public function getPreview(): ?string;
+
+    /**
+     * @return string|null
+     */
+    public function getPreviewHtml(): ?string;
+
+    /**
+     * @return string|null
+     */
     public function getText(): ?string;
 
     /**
      * @return string|null
      */
     public function getTextHtml(): ?string;
+
+    /**
+     * @return string|null
+     */
+    public function getHtml(): ?string;
 }
