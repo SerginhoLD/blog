@@ -1,0 +1,13 @@
+<?php
+use Blog\Model\PostInterface;
+
+/**
+ * @var PostInterface $post
+ */
+
+var_dump([
+    'id' => $post->getId(),
+    'slug' => $post->getSlug(),
+    'name' => $post->getName(),
+    'tags' => $post->getTags()->toArray(),
+]);

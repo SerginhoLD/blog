@@ -18,10 +18,33 @@ $di->setShared('router', function () use ($di, $config) {
 
 $di->setShared('dispatcher', function() use ($di) {
     $eventsManager = $di->getShared('eventsManager');
+
+    $eventsManager->attach('dispatch:beforeException', function ($event, Dispatcher $dispatcher, $exception) {
+        if ($exception instanceof \Blog\NotFoundException)
+        {
+            $dispatcher->forward([
+                'controller' => 'index',
+                'action' => 'notFound',
+            ]);
+
+            return false;
+        }
+    });
+
     $dispatcher = new Dispatcher();
     $dispatcher->setEventsManager($eventsManager);
     $dispatcher->setDefaultNamespace('Blog\Controller');
     return $dispatcher;
+});
+
+$di->set('cache', function() use ($config) {
+    $frontCache = new Cache\Frontend\Data([
+        'lifetime' => 86400,
+    ]);
+
+    return new Cache\Backend\File($frontCache, [
+        'cacheDir' => $config->cacheDir . '/data/',
+    ]);
 });
 
 $di->set('viewCache', function () use ($config) {

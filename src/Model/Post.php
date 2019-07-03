@@ -8,6 +8,7 @@ use Phalcon\Mvc\Model;
  * @package Blog\Model
  *
  * @method static Post[]|Model\Resultset\Simple find($parameters = null)
+ * @method static Post|false findFirst($parameters = null)
  * @method Tag[]|Model\Resultset\Simple getTags()
  */
 class Post extends Model implements PostInterface

@@ -9,6 +9,10 @@ $router->addGet('/', [
     'action' => 'index',
 ]);
 
-$router->addGet('/page/{page:[0-9]+}', [
+$router->addGet('/page/{page:\d+}', [
     'action' => 'blog',
+]);
+
+$router->addGet('/post/{slug:[a-z0-9]+}', [
+    'action' => 'post',
 ]);
