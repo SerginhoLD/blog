@@ -18,6 +18,7 @@ foreach ($posts as $post)
         'id' => $post->getId(),
         'slug' => $post->getSlug(),
         'name' => $post->getName(),
+        'text' => $post->getTextHtml(),
         'tags' => $post->getTags()->toArray(),
     ]);
 }

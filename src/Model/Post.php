@@ -30,6 +30,11 @@ class Post extends Model implements PostInterface
      */
     private $name;
 
+    /**
+     * @Column(type='text', nullable=false)
+     */
+    private $text;
+
     public function initialize()
     {
         $this->setSource('post');
@@ -68,5 +73,22 @@ class Post extends Model implements PostInterface
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTextHtml(): ?string
+    {
+        $text = $this->getText();
+        return $text !== null ? $this->getDI()->getShared('markdown')->parse($text) : null;
     }
 }

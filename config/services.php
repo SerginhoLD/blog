@@ -6,6 +6,7 @@ use Phalcon\Cache;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Db\Adapter\Pdo\Sqlite as Database;
+use Blog\Markdown;
 
 /** @var DI\FactoryDefault $di */
 
@@ -86,4 +87,8 @@ $di->setShared('db', function () use ($config) {
 
     $db->execute('PRAGMA foreign_keys = ON;');
     return $db;
+});
+
+$di->setShared('markdown', function () {
+    return new Markdown\ParsedownParser(new \Parsedown());
 });

@@ -9,6 +9,8 @@ try
 {
     $config = require __DIR__ . '/../config/config.php';
 
+    require_once $config->projectDir . '/vendor/autoload.php';
+
     $loader = new Loader();
     $loader->registerNamespaces([
         'Blog' => $config->projectDir . '/src',

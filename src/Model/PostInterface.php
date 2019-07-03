@@ -23,4 +23,14 @@ interface PostInterface
      * @return string|null
      */
     public function getName(): ?string;
+
+    /**
+     * @return string|null
+     */
+    public function getText(): ?string;
+
+    /**
+     * @return string|null
+     */
+    public function getTextHtml(): ?string;
 }
