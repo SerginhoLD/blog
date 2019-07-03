@@ -8,7 +8,7 @@ use Phalcon\Db\Adapter\Pdo\Sqlite as Database;
 
 /** @var DI\FactoryDefault $di */
 
-$di->set('router', function () use ($di, $config) {
+$di->setShared('router', function () use ($di, $config) {
     $router = new Router(false);
     $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
     require $config->projectDir . '/config/routes.php';
@@ -35,13 +35,13 @@ $di->set('view', function () use ($di, $config) {
     return $view;
 });
 
-$di->set('modelsMetadata', function() {
+$di->setShared('modelsMetadata', function() {
     $metaData = new MetaData\Memory();
     $metaData->setStrategy(new MetaData\Strategy\Annotations());
     return $metaData;
 });
 
-$di->set('db', function () use ($config) {
+$di->setShared('db', function () use ($config) {
     $db = new Database([
         'dbname' => $config->database->dbname,
         'options' => [
