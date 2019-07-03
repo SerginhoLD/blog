@@ -5,9 +5,8 @@ $projectDir = realpath(__DIR__ . '/..');
 
 return new Config([
     'projectDir' => $projectDir,
-    'db' => [
-        'blog' => [
-            'dbname' => $projectDir . '/blog.db3',
-        ],
+    'database' => [
+        'adapter' => 'Sqlite',
+        'dbname' => $projectDir . '/blog.sqlite',
     ],
 ]);
