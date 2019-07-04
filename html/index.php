@@ -1,7 +1,6 @@
 <?php
 error_reporting(E_ALL);
 
-use Phalcon\Loader;
 use Phalcon\DI;
 use Phalcon\Mvc\Application;
 
@@ -9,12 +8,7 @@ try
 {
     $config = require __DIR__ . '/../config/config.php';
 
-    require_once $config->projectDir . '/vendor/autoload.php';
-
-    $loader = new Loader();
-    $loader->registerNamespaces([
-        'Blog' => $config->projectDir . '/src',
-    ])->register();
+    require_once $config->projectDir . '/config/loader.php';
 
     $di = new DI\FactoryDefault();
     require $config->projectDir . '/config/services.php';
