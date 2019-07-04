@@ -30,19 +30,7 @@ $di->setShared('router', function () use ($di, $config) {
 
 $di->setShared('dispatcher', function() use ($di) {
     $eventsManager = $di->getShared('eventsManager');
-
-    $eventsManager->attach('dispatch:beforeException', function ($event, Dispatcher $dispatcher, $exception) {
-        if ($exception instanceof \Blog\NotFoundException)
-        {
-            $dispatcher->forward([
-                'controller' => 'index',
-                'action' => 'notFound',
-            ]);
-
-            return false;
-        }
-    });
-
+    $eventsManager->attach('dispatch:beforeException', new \Blog\ExceptionEventHandler());
     $eventsManager->attach('dispatch:beforeExecuteRoute', $di->getShared('auth'));
 
     $dispatcher = new Dispatcher();
