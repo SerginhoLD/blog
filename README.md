@@ -4,8 +4,10 @@
 
 ## Установка
 
-1) git
-2) `docker build -f docker/Dockerfile -t serginhold/blog-phalcon:latest .` 
-3) `docker-compose up -d`
-4) `docker exec -i -t blog-phalcon bash -c "cd /var/www; bash"`
-5) `phalcon migration run`
+1) git, composer
+2) `docker build -f docker/Dockerfile -t serginhold/blog-phalcon:latest .` \
+`docker-compose up -d` \
+`docker exec -i -t blog-phalcon bash -c "cd /var/www; bash"`
+3) `phalcon migration run`
+4) создать единственного admin-пользователя \
+`php bin/cli user {login} {password}`
