@@ -2,7 +2,7 @@ FROM php:7.3.6-apache
 # isset: curl, json, mbstring, fileinfo, openssl, pcre, pdo_sqlite
 
 # docker build -f docker/Dockerfile -t serginhold/blog-phalcon:latest .
-# docker exec -i -t 7ada6ae6bfa3 bash
+# docker exec -i -t blog-phalcon bash -c "cd /var/www; bash"
 
 ENV PHALCON_VERSION=3.4.4
 ENV PHALCON_DEVTOOLS_VERSION=3.4.2
@@ -16,7 +16,9 @@ RUN apt-get update \
         opcache \
         gettext \
     && pecl install xdebug-2.7.2 \
-    && docker-php-ext-enable xdebug
+    && docker-php-ext-enable xdebug \
+    && pecl install igbinary-3.0.1 \
+    && docker-php-ext-enable igbinary
 
 # cphalcon
 RUN curl -LO https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz \

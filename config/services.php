@@ -1,14 +1,24 @@
 <?php
 use Phalcon\DI;
+use Phalcon\Cache;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Cache;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Db\Adapter\Pdo\Sqlite as Database;
 use Blog\Markdown;
 
 /** @var DI\FactoryDefault $di */
+
+$di->set('cache', function() use ($config) {
+    $frontCache = new Cache\Frontend\Igbinary([
+        'lifetime' => 86400,
+    ]);
+
+    return new Cache\Backend\File($frontCache, [
+        'cacheDir' => $config->cacheDir . '/data/',
+    ]);
+});
 
 $di->setShared('router', function () use ($di, $config) {
     $router = new Router(false);
@@ -36,16 +46,6 @@ $di->setShared('dispatcher', function() use ($di) {
     $dispatcher->setEventsManager($eventsManager);
     $dispatcher->setDefaultNamespace('Blog\Controller');
     return $dispatcher;
-});
-
-$di->set('cache', function() use ($config) {
-    $frontCache = new Cache\Frontend\Data([
-        'lifetime' => 86400,
-    ]);
-
-    return new Cache\Backend\File($frontCache, [
-        'cacheDir' => $config->cacheDir . '/data/',
-    ]);
 });
 
 $di->set('viewCache', function () use ($config) {
