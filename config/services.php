@@ -6,6 +6,7 @@ use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Db\Adapter\Pdo\Sqlite as Database;
+use Phalcon\Http\Response\Cookies;
 use Blog\Markdown;
 
 /** @var DI\FactoryDefault $di */
@@ -87,6 +88,20 @@ $di->setShared('db', function () use ($config) {
 
     $db->execute('PRAGMA foreign_keys = ON;');
     return $db;
+});
+
+$di->setShared('users', function() use ($config) {
+    return new \Blog\Security\UserRepository($config->usersFile);
+});
+
+$di->setShared('cookies', function() {
+    $cookies = new Cookies();
+    $cookies->useEncryption(false);
+    return $cookies;
+});
+
+$di->setShared('auth', function () {
+    return new \Blog\Security\AuthPlugin();
 });
 
 $di->setShared('markdown', function () {
