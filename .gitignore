@@ -1,5 +1,5 @@
 .idea/
-.phalcon/users.json
+.phalcon/*.json
 cache/views/*
 !cache/views/.gitkeep
 cache/data/*

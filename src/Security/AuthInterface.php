@@ -1,5 +1,5 @@
 <?php
-namespace Blog\Model;
+namespace Blog\Security;
 
 /**
  * Interface AuthInterface
@@ -7,11 +7,6 @@ namespace Blog\Model;
  */
 interface AuthInterface
 {
-    /**
-     * @return int|null
-     */
-    public function getId(): ?int;
-
     /**
      * @return string|null
      */

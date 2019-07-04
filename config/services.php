@@ -94,6 +94,10 @@ $di->setShared('users', function() use ($config) {
     return new \Blog\Security\UserRepository($config->usersFile);
 });
 
+$di->setShared('AuthRepository', function() use ($config) {
+    return new \Blog\Security\AuthRepository($config->authFile);
+});
+
 $di->setShared('cookies', function() {
     $cookies = new Cookies();
     $cookies->useEncryption(false);

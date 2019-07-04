@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Blog\Security;
 
 use Phalcon\Mvc\User\Plugin;
-use Blog\Model\Auth;
 
 /**
  * Class AuthPlugin
@@ -18,6 +17,7 @@ class AuthPlugin extends Plugin
      * @param string $login
      * @param string $password
      * @return bool
+     * @throws \RuntimeException
      */
     public function login(string $login, string $password): bool
     {
@@ -28,12 +28,12 @@ class AuthPlugin extends Plugin
         if (!$user || !$this->security->checkHash($password, $user->getPasswordHash()))
             return false;
 
+        /** @var AuthRepository $authRepository */
+        $authRepository = $this->getDI()->getShared('AuthRepository');
         $authHash = $this->security->hash($user->getPasswordHash());
 
-        $auth = new Auth();
-        $auth->setLogin($login);
-        $auth->setHash($authHash);
-        $auth->save();
+        $auth = new Auth($login, $authHash);
+        $authRepository->save($auth);
 
         $this->cookies->set('i', $authHash, time() + self::COOKIE_TTL);
 
@@ -51,7 +51,9 @@ class AuthPlugin extends Plugin
         if (empty($authHash))
             return false;
 
-        $auth = Auth::findByHash($authHash);
+        /** @var AuthRepository $authRepository */
+        $authRepository = $this->getDI()->getShared('AuthRepository');
+        $auth = $authRepository->getByHash($authHash);
 
         if (!$auth)
             return false;
