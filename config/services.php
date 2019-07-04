@@ -43,6 +43,8 @@ $di->setShared('dispatcher', function() use ($di) {
         }
     });
 
+    $eventsManager->attach('dispatch:beforeExecuteRoute', $di->getShared('auth'));
+
     $dispatcher = new Dispatcher();
     $dispatcher->setEventsManager($eventsManager);
     $dispatcher->setDefaultNamespace('Blog\Controller');
