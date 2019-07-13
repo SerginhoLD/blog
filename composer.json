@@ -1,11 +1,8 @@
 {
   "name": "serginhold/blog",
-  "minimum-stability": "stable",
   "require": {
     "ext-json": "*",
+    "slim/slim": "4.0.0-beta",
     "erusev/parsedown": "1.7.3"
-  },
-  "require-dev": {
-    "phalcon/ide-stubs": "v3.4.3"
   }
 }

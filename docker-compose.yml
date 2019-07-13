@@ -1,9 +1,9 @@
-version: '3.7'
+version: '3'
 
 services:
   web:
-    image: serginhold/blog-phalcon:latest
-    container_name: blog-phalcon
+    image: serginhold/blog:latest
+    container_name: blog
     ports:
       - 80:80
     environment:
