@@ -3,6 +3,13 @@
   "require": {
     "ext-json": "*",
     "slim/slim": "4.0.0-beta",
+    "slim/psr7": "dev-master",
+    "ultra-lite/container": "6.2.0",
     "erusev/parsedown": "1.7.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Blog\\": "src/"
+    }
   }
 }
