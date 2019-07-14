@@ -11,13 +11,7 @@ require_once $projectDir . '/config/services.php';
 
 $app = AppFactory::create(null, $di);
 
+require_once $projectDir . '/config/middleware.php';
 require_once $projectDir . '/config/routes.php';
 
 $app->run();
-
-/*
-// Add error middleware
-$responseFactory = $app->getResponseFactory();
-$errorMiddleware = new ErrorMiddleware($app->getCallableResolver(), $responseFactory, true, true, true);
-$app->add($errorMiddleware);
-*/
