@@ -6,9 +6,10 @@ $projectDir = dirname(__DIR__);
 
 require_once $projectDir . '/vendor/autoload.php';
 
-$container = new Container(require $projectDir . '/config/services.php');
+$di = new Container();
+require_once $projectDir . '/config/services.php';
 
-$app = AppFactory::create(null, $container);
+$app = AppFactory::create(null, $di);
 
 require_once $projectDir . '/config/routes.php';
 
