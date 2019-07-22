@@ -1,11 +1,11 @@
 <?php
 namespace Blog\Controller;
 
-use Blog\Model\PostInterface;
+use Slim\Exception\HttpNotFoundException;
 use Slim\Views\PhpRenderer;
+use Blog\Lists\PostList;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use RedBeanPHP\R;
 
 /**
  * Class BlogController
@@ -16,38 +16,32 @@ class BlogController
     /** @var PhpRenderer */
     private $renderer;
 
-    public function __construct(PhpRenderer $renderer)
+    /** @var PostList */
+    private $posts;
+
+    public function __construct(PhpRenderer $renderer, PostList $posts)
     {
         $this->renderer = $renderer;
+        $this->posts = $posts;
     }
 
     public function blog(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        //$query = $this->conn->createQueryBuilder()->select('*')->from('post');
-        //var_dump($query->execute()->fetchAll());
+        $page = (int)$args['page'];
+        $posts = $this->posts;
 
-        /*echo '<hr>';
+        if ($page > 1)
+            $posts->setPage($page);
 
-        $test = R::find('post');
+        $posts->build();
 
-        /** @var \RedBeanPHP\OODBBean $item * /
-        foreach ($test as $item)
-        {
-            /** @var PostInterface $post * /
-            $post = $item->box();
-            var_dump($post);
-            var_dump($post->getId());
-            var_dump($post->getText());
-        }
+        if ($posts->getPage() > $posts->getTotalPages())
+            throw new HttpNotFoundException($request);
 
-        //\R::setup();
-        //\R::find();
-
-        echo '<hr>';
-
-        //$t = R::load('post', 1);
-        //var_dump($t);*/
-
-        return $this->renderer->render($response, 'blog/index.phtml');
+        return $this->renderer->render($response, 'blog/index.phtml', [
+            'page' => $posts->getPage(),
+            'totalPages' => $posts->getTotalPages(),
+            'posts' => $posts->getItems(),
+        ]);
     }
 }

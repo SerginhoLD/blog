@@ -1,6 +1,7 @@
 <?php
 use UltraLite\Container\Container;
 use Slim\Views\PhpRenderer;
+use Blog\Lists;
 use Blog\Controller;
 
 /**
@@ -14,6 +15,10 @@ $di->set('renderer', function() use ($projectDir) {
     return new PhpRenderer($projectDir . '/views', [], 'layout.phtml');
 });
 
+$di->set(Lists\PostList::class, function() use ($di) {
+    return new Lists\PostList();
+});
+
 $di->set(Controller\BlogController::class, function() use ($di) {
-    return new Controller\BlogController($di->get('renderer'));
+    return new Controller\BlogController($di->get('renderer'), $di->get(Lists\PostList::class));
 });

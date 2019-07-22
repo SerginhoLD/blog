@@ -9,9 +9,6 @@ use Blog\Model\PostInterface;
  * @var int $totalPages
  */
 
-//var_dump($this);
-
-/*
 var_dump([
     'page' => $page,
     'totalPages' => $totalPages,
@@ -23,7 +20,6 @@ foreach ($posts as $post)
         'id' => $post->getId(),
         'slug' => $post->getSlug(),
         'name' => $post->getName(),
-        'text' => $post->getHtml(),
-        'tags' => $post->getTags()->toArray(),
+        //'tags' => $post->getTags(),
     ]);
-}*/
+}
