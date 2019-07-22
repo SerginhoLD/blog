@@ -2,12 +2,25 @@
 namespace Blog\Controller;
 
 use Blog\Model\PostInterface;
+use Slim\Views\PhpRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RedBeanPHP\R;
 
+/**
+ * Class BlogController
+ * @package Blog\Controller
+ */
 class BlogController
 {
+    /** @var PhpRenderer */
+    private $renderer;
+
+    public function __construct(PhpRenderer $renderer)
+    {
+        $this->renderer = $renderer;
+    }
+
     public function blog(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
         //$query = $this->conn->createQueryBuilder()->select('*')->from('post');
@@ -35,7 +48,6 @@ class BlogController
         //$t = R::load('post', 1);
         //var_dump($t);*/
 
-        $response->getBody()->write("blog list");
-        return $response;
+        return $this->renderer->render($response, 'blog/index.phtml');
     }
 }

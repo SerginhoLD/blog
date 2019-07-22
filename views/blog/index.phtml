@@ -1,12 +1,17 @@
 <?php
+use Slim\Views\PhpRenderer;
 use Blog\Model\PostInterface;
 
 /**
+ * @var PhpRenderer $this
  * @var PostInterface[] $posts
  * @var int $page
  * @var int $totalPages
  */
 
+//var_dump($this);
+
+/*
 var_dump([
     'page' => $page,
     'totalPages' => $totalPages,
@@ -21,4 +26,4 @@ foreach ($posts as $post)
         'text' => $post->getHtml(),
         'tags' => $post->getTags()->toArray(),
     ]);
-}
+}*/
