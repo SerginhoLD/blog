@@ -48,7 +48,7 @@ abstract class AbstractController
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    protected function render(ResponseInterface $response, string $template, array $data = [])
+    protected function render(ResponseInterface $response, string $template, array $data = []): ResponseInterface
     {
         /** @var PhpRenderer $renderer */
         $renderer = $this->container->get('renderer');

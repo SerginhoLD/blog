@@ -22,7 +22,7 @@ foreach ($posts as $post)
         'id' => $post->getId(),
         'slug' => $post->getSlug(),
         'name' => $post->getName(),
-        'text' => $markdown->parse($post->getFullText()),
+        'preview' => $markdown->parse($post->getPreview()),
         'tags' => $post->getTags(),
     ]);
 }

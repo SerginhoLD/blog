@@ -1,14 +1,18 @@
 <?php
+use Slim\Views\PhpRenderer;
 use Blog\Model\PostInterface;
+use Blog\Markdown;
 
 /**
+ * @var PhpRenderer $this
  * @var PostInterface $post
+ * @var Markdown\ParserInterface $markdown
  */
 
 var_dump([
     'id' => $post->getId(),
     'slug' => $post->getSlug(),
     'name' => $post->getName(),
-    'text' => $post->getHtml(),
-    'tags' => $post->getTags()->toArray(),
+    'text' => $markdown->parse($post->getFullText()),
+    'tags' => $post->getTags(),
 ]);

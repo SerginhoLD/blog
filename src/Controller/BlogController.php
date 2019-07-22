@@ -1,10 +1,11 @@
 <?php
 namespace Blog\Controller;
 
-use Slim\Exception\HttpNotFoundException;
-use Blog\Lists\PostList;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpNotFoundException;
+use Blog\Lists\PostList;
+use RedBeanPHP\R;
 
 /**
  * Class BlogController
@@ -31,6 +32,22 @@ class BlogController extends AbstractController
             'page' => $posts->getPage(),
             'totalPages' => $posts->getTotalPages(),
             'posts' => $posts->getItems(),
+        ]);
+    }
+
+    public function post(ServerRequestInterface $request, ResponseInterface $response, $args)
+    {
+        $slug = $args['slug'];
+
+        $post = R::findOne('post', 'slug = :slug', [
+            'slug' => $slug,
+        ]);
+
+        if (!$post)
+            throw new HttpNotFoundException($request);
+
+        return $this->render($response, 'blog/post.phtml', [
+            'post' => $post->box(),
         ]);
     }
 }
