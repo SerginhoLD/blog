@@ -33,6 +33,11 @@ interface PostInterface
     public function getText(): ?string;
 
     /**
+     * @return string|null
+     */
+    public function getFullText(): ?string;
+
+    /**
      * @return TagInterface[]
      */
     public function getTags(): array;

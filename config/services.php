@@ -1,6 +1,7 @@
 <?php
 use UltraLite\Container\Container;
 use Slim\Views\PhpRenderer;
+use Blog\Markdown;
 use Blog\Lists;
 use Blog\Controller;
 
@@ -11,8 +12,14 @@ use Blog\Controller;
 
 require_once __DIR__ . '/db.php';
 
-$di->set('renderer', function() use ($projectDir) {
-    return new PhpRenderer($projectDir . '/views', [], 'layout.phtml');
+$di->set('markdown', function() use ($di) {
+    return new Markdown\ParsedownParser(new \Parsedown());
+});
+
+$di->set('renderer', function() use ($projectDir, $di) {
+    return new PhpRenderer($projectDir . '/views', [
+        'markdown' => $di->get('markdown'),
+    ], 'layout.phtml');
 });
 
 $di->set(Lists\PostList::class, function() use ($di) {

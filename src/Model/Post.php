@@ -52,6 +52,18 @@ class Post extends SimpleModel implements PostInterface
     }
 
     /**
+     * @return string|null
+     */
+    public function getFullText(): ?string
+    {
+        $list = array_filter([$this->getPreview(), $this->getText()], function ($text) {
+            return $text !== null;
+        });
+
+        return !empty($list) ? implode(PHP_EOL . PHP_EOL, $list) : null;
+    }
+
+    /**
      * @return TagInterface[]
      */
     public function getTags(): array
