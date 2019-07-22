@@ -2,9 +2,10 @@
   "name": "serginhold/blog",
   "require": {
     "ext-json": "*",
+    "ultra-lite/container": "6.2.0",
     "slim/slim": "4.0.0-beta",
     "slim/psr7": "dev-master",
-    "ultra-lite/container": "6.2.0",
+    "gabordemooij/redbean": "v5.3.1",
     "erusev/parsedown": "1.7.3"
   },
   "autoload": {
