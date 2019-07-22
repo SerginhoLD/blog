@@ -4,8 +4,6 @@ namespace Blog\Model;
 /**
  * Interface PostInterface
  * @package Blog\Model
- *
- * @method2 TagInterface[] getTags()
  */
 interface PostInterface
 {
@@ -33,4 +31,9 @@ interface PostInterface
      * @return string|null
      */
     public function getText(): ?string;
+
+    /**
+     * @return TagInterface[]
+     */
+    public function getTags(): array;
 }

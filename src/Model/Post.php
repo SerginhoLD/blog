@@ -9,28 +9,63 @@ use RedBeanPHP\SimpleModel;
  */
 class Post extends SimpleModel implements PostInterface
 {
+    private $tags;
+
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPreview(): ?string
     {
         return $this->preview;
     }
 
+    /**
+     * @return string|null
+     */
     public function getText(): ?string
     {
         return $this->text;
+    }
+
+    /**
+     * @return TagInterface[]
+     */
+    public function getTags(): array
+    {
+        if ($this->tags === null)
+        {
+            $this->tags = [];
+
+            foreach ($this->sharedTag as $k => $item)
+            {
+                $this->tags[$k] = $item->box();
+            }
+        }
+
+        return $this->tags;
     }
 }
