@@ -2,7 +2,6 @@
 namespace Blog\Controller;
 
 use Slim\Exception\HttpNotFoundException;
-use Slim\Views\PhpRenderer;
 use Blog\Lists\PostList;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -11,24 +10,14 @@ use Psr\Http\Message\ServerRequestInterface;
  * Class BlogController
  * @package Blog\Controller
  */
-class BlogController
+class BlogController extends AbstractController
 {
-    /** @var PhpRenderer */
-    private $renderer;
-
-    /** @var PostList */
-    private $posts;
-
-    public function __construct(PhpRenderer $renderer, PostList $posts)
-    {
-        $this->renderer = $renderer;
-        $this->posts = $posts;
-    }
-
     public function blog(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
         $page = (int)$args['page'];
-        $posts = $this->posts;
+
+        /** @var PostList $posts */
+        $posts = $this->container->get(PostList::class);
 
         if ($page > 1)
             $posts->setPage($page);
@@ -38,7 +27,7 @@ class BlogController
         if ($posts->getPage() > $posts->getTotalPages())
             throw new HttpNotFoundException($request);
 
-        return $this->renderer->render($response, 'blog/index.phtml', [
+        return $this->render($response, 'blog/index.phtml', [
             'page' => $posts->getPage(),
             'totalPages' => $posts->getTotalPages(),
             'posts' => $posts->getItems(),
