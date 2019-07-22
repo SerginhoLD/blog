@@ -8,7 +8,7 @@ use Slim\Interfaces\RouteCollectorInterface;
 use Slim\Routing\RouteCollector;
 use Slim\Views\PhpRenderer;
 use Blog\Markdown;
-use Blog\Lists;
+use Blog\Lists\PostList;
 use Blog\Controller;
 
 /**
@@ -44,8 +44,8 @@ $di->set('renderer', function() use ($projectDir, $di) {
     ], 'layout.phtml');
 });
 
-$di->set(Lists\PostList::class, function() use ($di) {
-    return new Lists\PostList();
+$di->set(PostList::class, function() use ($di) {
+    return new PostList();
 });
 
 /*
