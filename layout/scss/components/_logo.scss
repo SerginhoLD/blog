@@ -1,0 +1,24 @@
+.header-logo {
+  display: flex;
+  float: left;
+  overflow: hidden;
+  align-items: center;
+  font-size: font(size, title);
+  //color: inherit !important;
+  text-decoration: none !important;
+  //background: url("/public/img/logo.svg") no-repeat left;
+  background: url("../img/logo.svg") no-repeat left;
+  
+  background-size: 3.2rem;
+  height: $header-row-height;
+  padding-left: 4.0rem;color: #fff;
+  
+  &__title {
+  }
+  
+  @include media('mobile') {
+    &__title {
+      display: none;
+    }
+  }
+}

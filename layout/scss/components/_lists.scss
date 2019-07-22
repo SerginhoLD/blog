@@ -1,0 +1,44 @@
+.list {
+  //margin-bottom: $gutter*1.5;
+  //background-color: color(card);
+  //border-radius: $border-radius;
+  //@include box-shadow;
+  /*
+  &__header, &__header > a {
+    margin: 0;
+    font-weight: normal;
+    font-size: font(size, headline);
+    line-height: font(line-height, headline);
+    //text-transform: none;
+    color: color(text, title);
+    border-bottom: 1px solid color(border);padding: $gutter*0.75 $gutter;
+  }
+  
+  &__content {
+    //flex: 1 0 auto;
+    //padding: $gutter;
+  }*/
+  
+  &__item {
+    padding: $gutter;
+    
+    & + & {
+      border-top: 1px solid color(border);
+    }
+  }
+  
+  &__header {
+    margin-bottom: $gutter/2;
+  }
+  
+  &__title {
+    font-size: font(size, sub-title);
+    color: color(text, title);
+  }
+  
+  &__time {
+    font-size: font(size, caption);
+    color: color(text, hint);
+    text-align: right;
+  }
+}

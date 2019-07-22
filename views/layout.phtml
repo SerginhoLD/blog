@@ -8,8 +8,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&amp;subset=cyrillic-ext" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>Example</title>
 </head>
 <body>
-    <?= $content ?>
+<div id="app" class="l-main">
+    <header class="l-header">
+        <div class="l-header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col col--6 col--t-4 col--m-3">
+                        <a href="/" class="header-logo"><span class="header-logo__title">SerginhoLD</span></a>
+                    </div>
+                    <div class="col col--6 col--t-8 col--m-9">
+                        <form class="search" method="get" action="/search">
+                            <input class="search__input" type="text" name="s" placeholder="Поиск">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="l-header__nav">
+            <div class="container">
+                <div class="row">
+                    <div class="tabs">
+                        <a href="/" class="tabs__item">Блог</a>
+                        <a href="/feedback" class="tabs__item">Контакты</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="l-content">
+        <div class="container">
+            <div class="row">
+                <main class="col col--8 col--t-12"><?= $content ?></main>
+                <div class="col col--4 col--t-12">
+                    <aside class="aside">
+                        <!--<div class="aside__item popular">
+                            <div class="aside__title">Популярное</div>
+                            <div class="aside__content popular__list">
+                                <a href="#" class="popular__item">Структура проекта</a>
+                                <a href="#" class="popular__item">Первый опыт работы с webpack</a>
+                            </div>
+                        </div>-->
+                        <div class="aside__item tags">
+                            <div class="aside__title">Теги</div>
+                            <div class="aside__content tags__list">
+                                <a href="#" class="tags__item">php <span class="tags__count">(7)</span></a>
+                                <a href="#" class="tags__item">vue <span class="tags__count">(2)</span></a>
+                                <a href="#" class="tags__item">webpack <span class="tags__count">(1)</span></a>
+                                <a href="#" class="tags__item">bitrix <span class="tags__count">(2)</span></a>
+                                <a href="#" class="tags__item">phalcon <span class="tags__count">(5)</span></a>
+                                <a href="#" class="tags__item">webpack <span class="tags__count">(1</span>)</a>
+                                <a href="#" class="tags__item">bitrix <span class="tags__count">(2)</span></a>
+                                <a href="#" class="tags__item">phalcon <span class="tags__count">(5)</span></a>
+                                <a href="#" class="tags__item">webpack <span class="tags__count">(1)</span></a>
+                                <a href="#" class="tags__item">bitrix <span class="tags__count">(2)</span></a>
+                                <a href="#" class="tags__item">phalcon <span class="tags__count">(5)</span></a>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="l-footer">
+        <div class="container">
+            18+
+        </div>
+    </div>
+</div>
+<script src=""></script>
 </body>
 </html>

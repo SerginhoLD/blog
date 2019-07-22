@@ -1,0 +1,66 @@
+// typography
+
+@mixin margin-gutter {
+  margin: 0 0 ($gutter / 2) 0;
+}
+
+@mixin user-select($value) {
+  -webkit-touch-callout: $value; // iOS Safari
+  -webkit-user-select: $value;   // Chrome/Safari/Opera
+  -moz-user-select: $value;      // Firefox
+  -ms-user-select: $value;       // Internet Explorer/Edge
+  user-select: $value;           // Non-prefixed version, currently not supported by any browser
+}
+
+@mixin transition($property: all, $duration: 0.2s, $func: linear, $delay: 0s) {
+  transition: $property $duration $func $delay;
+}
+
+@mixin box-shadow {
+  //box-shadow: 0 0.2rem 0.5rem rgba(0,0,0,.2);
+  //box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+  box-shadow: 0 1px 1px rgba(0,0,0,.1);
+}
+
+@mixin box-shadow-focus {
+  box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15);
+}
+
+
+// media
+
+@mixin media($screen) {
+  @if $screen == 'desktop' {
+    @media (min-width: $media-desktop) {
+      @content;
+    }
+  }
+  @else if $screen == 'tablet' {
+    @media //(min-width: $media-desktop) and
+    (max-width: $media-desktop - 0.05rem) {
+      @content;
+    }
+  }
+  @else if $screen == 'mobile' {
+    @media (max-width: $media-tablet - 0.05rem) {
+      @content;
+    }
+  }
+}
+
+
+// grid
+
+@mixin grid-make-columns($type: '') {
+  @if $type != '' {     // .col--$i
+    $type: $type + '-'; // .col--$type-$i
+  }
+  
+  @for $i from 1 through $grid-columns {
+    .col--#{$type + $i} {
+      flex-grow: 0;
+      flex-basis: percentage(($i / $grid-columns));
+      max-width: percentage(($i / $grid-columns));
+    }
+  }
+}

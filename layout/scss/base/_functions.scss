@@ -1,0 +1,29 @@
+// h1-h6
+@function headings($from: 1, $to :6) {
+  @if $from == $to {
+    @return 'h#{$from}';
+  }
+  @else {
+    @return 'h#{$from}, ' + headings($from+1, $to);
+  }
+}
+
+// map tree (2 lvl)
+@function obj_get($obj, $name, $variant: null) {
+  @if ($variant != null) {
+    @return map_get(map_get($obj, $name), $variant);
+  }
+  @else {
+    @return map_get($obj, $name);
+  }
+}
+
+// get color
+@function color($name, $variant: null) {
+  @return obj_get($colors, $name, $variant);
+}
+
+// get font option
+@function font($name, $variant: null) {
+  @return obj_get($font, $name, $variant);
+}

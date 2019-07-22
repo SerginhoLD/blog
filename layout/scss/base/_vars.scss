@@ -1,0 +1,71 @@
+$gutter: 1.6rem !default;
+$border-radius: 0.2rem !default;
+
+$grid-columns: 12 !default;
+
+$colors: (
+        body: #eef5f9,
+        card: #fff,
+        border: rgba(215,225,237,.6),
+        
+        primary: (
+                base: #222f3c,
+                //light: #FF5252,
+                dark: #1c2732,
+                
+                text: #fff,
+                hint: #91a6bb,//rgba(255,255,255,0.54),
+        ),
+        
+        secondary: (
+                base: #ec407a,
+                //light: #78909C,
+                //dark: #455A64,
+                
+                text: #fff,
+                hint: rgba(255,255,255,0.54),
+        ),
+        
+        text: (
+                title: #516073,//rgba(0,0,0,0.87),
+                base: #607188,//rgba(0,0,0,0.54),
+                //hint: rgba(0,0,0,0.38),
+        ),
+) !default;
+
+$font: (
+        family: #{"'Open Sans', sans-serif"}, // извращение из-за запятой
+        size: (
+                html: 62.5%,
+                
+                display: 3.4rem,
+                headline: 2.4rem,
+                title: 2rem,
+                sub-title: 1.6rem,
+                base: 1.4rem,
+                caption: 1.2rem,
+                
+                button: 1.3rem, // в руководстве размер равен `base`
+        ),
+        line-height: (
+                display: 4rem,
+                headline: 3.2rem,
+                title: 2.8rem,
+                base: 2.4rem, // and sub-title
+                caption: 2.0rem,
+        ),
+) !default;
+
+
+//$font-title: 'Roboto Condensed', sans-serif;
+
+
+// media
+$media-desktop: 70rem; // *16 = ?px
+$media-tablet: 42rem;
+
+$container-desktop-width: 117rem; // *10 = ?px // 98
+
+
+// header
+$header-row-height: 4.8rem;

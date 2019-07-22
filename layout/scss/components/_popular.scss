@@ -1,0 +1,13 @@
+.popular {
+  &__list {
+    margin-top: 0.6rem;
+  }
+  
+  &__item {
+    display: block;
+    line-height: 1.7rem;
+    //margin: ($gutter * 3 / 4) auto;
+    margin-bottom: ($gutter * 3 / 4);
+    color: color(text, title) !important;
+  }
+}

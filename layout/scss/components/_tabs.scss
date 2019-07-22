@@ -1,0 +1,25 @@
+.tabs {
+  display: flex;
+  //flex-direction: column;
+  
+  &__item {
+    display: flex;
+    align-items: center;
+    height: $header-row-height;
+    padding-top: 2px;
+    padding-left: $gutter;
+    padding-right: $gutter;
+    //background: red;
+    //border-right: 1px solid blue;
+    border-bottom: 2px solid transparent;
+    color: inherit !important;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    
+    @include transition(border-color, 0.1s);
+    
+    &--active, &:hover {
+      border-color: color(secondary, base);
+    }
+  }
+}
