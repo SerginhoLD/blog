@@ -7,6 +7,7 @@ use Slim\CallableResolver;
 use Slim\Interfaces\RouteCollectorInterface;
 use Slim\Routing\RouteCollector;
 use Slim\Views\PhpRenderer;
+use Blog\View\Asset;
 use Blog\Markdown;
 use Blog\Lists\PostList;
 use Blog\Controller;
@@ -34,12 +35,17 @@ $di->set(RouteCollectorInterface::class, function () use ($di) {
     );
 });
 
+$di->set('asset', function() use ($projectDir) {
+    return new Asset($projectDir . '/html');
+});
+
 $di->set('markdown', function() use ($di) {
     return new Markdown\ParsedownParser(new \Parsedown());
 });
 
 $di->set('renderer', function() use ($projectDir, $di) {
     return new PhpRenderer($projectDir . '/views', [
+        'asset' => $di->get('asset'),
         'markdown' => $di->get('markdown'),
     ], 'layout.phtml');
 });
