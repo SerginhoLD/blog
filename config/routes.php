@@ -3,4 +3,4 @@ use Blog\Controller\BlogController;
 
 /** @var \Slim\App $app */
 
-$app->get('/', BlogController::class . ':blog')->setName('blog');
+$app->get('/[page/{page:\d+}]', BlogController::class . ':blog')->setName('blog');
