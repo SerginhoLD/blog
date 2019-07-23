@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Blog\Controller;
 
+use Blog\View\AssetInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -63,5 +64,13 @@ abstract class AbstractController
         /** @var RouteCollectorInterface $collector */
         $collector = $this->container->get(RouteCollectorInterface::class);
         return $collector->getRouteParser();
+    }
+
+    /**
+     * @return AssetInterface
+     */
+    protected function getAsset(): AssetInterface
+    {
+        return $this->container->get('asset');
     }
 }

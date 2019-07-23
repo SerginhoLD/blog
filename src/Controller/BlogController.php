@@ -4,8 +4,9 @@ namespace Blog\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotFoundException;
-use Blog\Lists\PostList;
 use RedBeanPHP\R;
+use Blog\Lists\PostList;
+use Blog\Model\PostInterface;
 
 /**
  * Class BlogController
@@ -17,6 +18,12 @@ class BlogController extends AbstractController
     {
         $page = (int)$args['page'];
 
+        if ($page === 1)
+        {
+            # /blog/page/1 => /blog
+            return $this->redirect($this->getRouteParser()->urlFor('blog'));
+        }
+
         /** @var PostList $posts */
         $posts = $this->container->get(PostList::class);
 
@@ -27,6 +34,13 @@ class BlogController extends AbstractController
 
         if ($posts->getPage() > $posts->getTotalPages())
             throw new HttpNotFoundException($request);
+
+        $title = ['Блог'];
+
+        if ($page > 1)
+            $title[] = 'Страница ' . $page;
+
+        $this->getAsset()->setTitle($title);
 
         return $this->render($response, 'blog/index.phtml', [
             'page' => $posts->getPage(),
@@ -46,8 +60,12 @@ class BlogController extends AbstractController
         if (!$post)
             throw new HttpNotFoundException($request);
 
+        /** @var PostInterface $post */
+        $post = $post->box();
+        $this->getAsset()->setTitle($post->getName());
+
         return $this->render($response, 'blog/post.phtml', [
-            'post' => $post->box(),
+            'post' => $post,
         ]);
     }
 }

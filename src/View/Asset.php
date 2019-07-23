@@ -7,10 +7,13 @@ namespace Blog\View;
  * Class Asset
  * @package Blog\View
  */
-class Asset
+class Asset implements AssetInterface
 {
     /** @var string */
     private $publicDir;
+
+    /** @var string */
+    private $title = 'Блог';
 
     /**
      * @param string $publicDir
@@ -33,5 +36,28 @@ class Asset
 
         $version = hash('crc32', filemtime($file) . filesize($file));
         return $src . '?' . $version;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title . ' · SerginhoLD';
+    }
+
+    /**
+     * @param string|string[] $title
+     * @return $this
+     */
+    public function setTitle($title): AssetInterface
+    {
+        if (is_array($title))
+        {
+            $title = implode(' · ', $title);
+        }
+
+        $this->title = $title;
+        return $this;
     }
 }
