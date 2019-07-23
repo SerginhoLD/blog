@@ -35,6 +35,11 @@ interface PostInterface
     /**
      * @return string|null
      */
+    public function getCreatedAt(): ?string;
+
+    /**
+     * @return string|null
+     */
     public function getFullText(): ?string;
 
     /**

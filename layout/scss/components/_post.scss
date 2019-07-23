@@ -1,0 +1,16 @@
+.post {
+  margin: 0 0 ($gutter * 1.5) 0;
+  
+  &__title {
+    margin-bottom: 0;
+  }
+  
+  &__date, &__meta {
+    font-size: font(size, caption);
+    line-height: font(line-height, caption);
+  }
+  
+  &__meta, &__content {
+    margin: ($gutter / 2) 0 0 0;
+  }
+}

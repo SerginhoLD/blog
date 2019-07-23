@@ -1,28 +1,59 @@
 <?php
 use Slim\Views\PhpRenderer;
-use Blog\Model\PostInterface;
 use Blog\Markdown;
+use Blog\Utils\DateFormatter;
+use Blog\Model\PostInterface;
 
 /**
  * @var PhpRenderer $this
+ * @var Markdown\ParserInterface $markdown
+ * @var DateFormatter $dateFormatter
  * @var PostInterface[] $posts
  * @var int $page
  * @var int $totalPages
- * @var Markdown\ParserInterface $markdown
  */
-
-var_dump([
-    'page' => $page,
-    'totalPages' => $totalPages,
-]);
 
 foreach ($posts as $post)
 {
-    var_dump([
-        'id' => $post->getId(),
-        'slug' => $post->getSlug(),
-        'name' => $post->getName(),
-        'preview' => $markdown->parse($post->getPreview()),
-        'tags' => $post->getTags(),
-    ]);
+    ?>
+    <div class="post">
+        <div class="post__date"><?= $dateFormatter->format($post->getCreatedAt()) ?></div>
+        <h2 class="post__title"><a href="#"><?= htmlspecialchars($post->getName()) ?></a></h2>
+        <?php
+        $tags = $post->getTags();
+
+        if (!empty($tags))
+        {
+            ?>
+            <div class="post__meta">
+                🏷️
+                <?php
+                while ($tag = current($tags))
+                {
+                    ?>
+                    <a href="#"><?= htmlspecialchars($tag->getTitle() ?? $tag->getName()) ?></a><?php
+
+                    $tag = next($tags);
+
+                    if ($tag)
+                        echo ', ';
+                }
+            ?>
+            </div>
+            <?php
+        }
+
+        $preview = $post->getPreview();
+
+        if (!empty($preview))
+        {
+            ?>
+            <div class="post__content">
+                <?= $markdown->parse(htmlspecialchars($preview)) ?>
+            </div>
+            <?php
+        }
+        ?>
+    </div>
+    <?php
 }

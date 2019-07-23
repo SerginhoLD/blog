@@ -7,9 +7,10 @@ use Slim\CallableResolver;
 use Slim\Interfaces\RouteCollectorInterface;
 use Slim\Routing\RouteCollector;
 use Slim\Views\PhpRenderer;
-use Blog\View\Asset;
+use Blog\View;
 use Blog\Markdown;
 use Blog\Lists\PostList;
+use Blog\Utils\DateFormatter;
 use Blog\Controller;
 
 /**
@@ -35,18 +36,23 @@ $di->set(RouteCollectorInterface::class, function () use ($di) {
     );
 });
 
-$di->set('asset', function() use ($projectDir) {
-    return new Asset($projectDir . '/html');
+$di->set(View\AssetInterface::class, function() use ($projectDir) {
+    return new View\Asset($projectDir . '/html');
 });
 
-$di->set('markdown', function() use ($di) {
+$di->set(Markdown\ParserInterface::class, function() use ($di) {
     return new Markdown\ParsedownParser(new \Parsedown());
+});
+
+$di->set(DateFormatter::class, function() {
+    return new DateFormatter();
 });
 
 $di->set('renderer', function() use ($projectDir, $di) {
     return new PhpRenderer($projectDir . '/views', [
-        'asset' => $di->get('asset'),
-        'markdown' => $di->get('markdown'),
+        'asset' => $di->get(View\AssetInterface::class),
+        'markdown' => $di->get(Markdown\ParserInterface::class),
+        'dateFormatter' => $di->get(DateFormatter::class),
     ], 'layout.phtml');
 });
 

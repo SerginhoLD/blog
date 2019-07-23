@@ -11,4 +11,4 @@ use Blog\Markdown;
 ?>
 <h1><?= htmlspecialchars($post->getName()) ?></h1>
 
-<?= $markdown->parse($post->getFullText()) ?>
+<?= $markdown->parse(htmlspecialchars($post->getFullText())) ?>

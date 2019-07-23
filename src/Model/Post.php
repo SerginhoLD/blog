@@ -54,6 +54,14 @@ class Post extends SimpleModel implements PostInterface
     /**
      * @return string|null
      */
+    public function getCreatedAt(): ?string
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getFullText(): ?string
     {
         $list = array_filter([$this->getPreview(), $this->getText()], function ($text) {

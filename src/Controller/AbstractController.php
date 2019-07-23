@@ -71,6 +71,6 @@ abstract class AbstractController
      */
     protected function getAsset(): AssetInterface
     {
-        return $this->container->get('asset');
+        return $this->container->get(AssetInterface::class);
     }
 }
