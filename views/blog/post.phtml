@@ -1,14 +1,44 @@
 <?php
 use Slim\Views\PhpRenderer;
-use Blog\Model\PostInterface;
 use Blog\Markdown;
+use Blog\Utils\DateFormatter;
+use Blog\Model\PostInterface;
 
 /**
  * @var PhpRenderer $this
  * @var PostInterface $post
  * @var Markdown\ParserInterface $markdown
+ * @var DateFormatter $dateFormatter
  */
 ?>
-<h1><?= htmlspecialchars($post->getName()) ?></h1>
+<div class="post">
+    <div class="post__date"><?= $dateFormatter->format($post->getCreatedAt()) ?></div>
+    <h1 class="post__title"><?= htmlspecialchars($post->getName()) ?></h1>
+    <?php
+    $tags = $post->getTags();
 
-<?= $markdown->parse(htmlspecialchars($post->getFullText())) ?>
+    if (!empty($tags))
+    {
+        ?>
+        <div class="post__meta">
+            🏷️
+            <?php
+            while ($tag = current($tags))
+            {
+                ?>
+                <a href="#"><?= htmlspecialchars($tag->getTitle() ?? $tag->getName()) ?></a><?php
+
+                $tag = next($tags);
+
+                if ($tag)
+                    echo ', ';
+            }
+            ?>
+        </div>
+        <?php
+    }
+    ?>
+    <div class="post__content post__content--full">
+        <?= $markdown->parse(htmlspecialchars($post->getFullText())) ?>
+    </div>
+</div>

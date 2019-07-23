@@ -667,6 +667,8 @@ body {
     line-height: 2rem; }
   .post__meta, .post__content {
     margin: 0.8rem 0 0 0; }
+  .post__content--full {
+    margin-top: 1.6rem; }
 
 /*
 

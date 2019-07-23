@@ -13,4 +13,8 @@
   &__meta, &__content {
     margin: ($gutter / 2) 0 0 0;
   }
+  
+  &__content--full {
+    margin-top: $gutter;
+  }
 }
