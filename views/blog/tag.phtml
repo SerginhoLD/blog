@@ -1,0 +1,94 @@
+<?php
+use Slim\Views\PhpRenderer;
+use Slim\Interfaces\RouteParserInterface;
+use Blog\Markdown;
+use Blog\Utils\DateFormatter;
+use Blog\Model\PostInterface;
+use Blog\Model\TagInterface;
+
+/**
+ * @var PhpRenderer $this
+ * @var RouteParserInterface $routeParser
+ * @var Markdown\ParserInterface $markdown
+ * @var DateFormatter $dateFormatter
+ * @var TagInterface $tag
+ * @var PostInterface[] $posts
+ * @var int $page
+ * @var int $totalPages
+ */
+
+foreach ($posts as $post)
+{
+    $postUrl = $routeParser->urlFor('post', [
+        'slug' => $post->getSlug(),
+    ]);
+
+    ?>
+    <div class="post">
+        <div class="post__date"><?= $dateFormatter->format($post->getCreatedAt()) ?></div>
+        <h2 class="post__title"><a href="<?= $postUrl ?>">
+                <?= htmlspecialchars($post->getName()) ?></a>
+        </h2>
+        <?php
+        $tags = $post->getTags();
+
+        if (!empty($tags))
+        {
+            ?>
+            <div class="post__meta">
+                🏷️
+                <?php
+                /** @var TagInterface $item */
+                while ($item = current($tags))
+                {
+                    $tagUrl = $routeParser->urlFor('tag', [
+                        'name' => $item->getName(),
+                    ]);
+                    ?>
+                    <a href="<?= $tagUrl ?>"><?= htmlspecialchars($item->getTitle() ?? $item->getName()) ?></a><?php
+
+                    $item = next($tags);
+
+                    if ($item)
+                        echo ', ';
+                }
+                ?>
+            </div>
+            <?php
+        }
+
+        $preview = $post->getPreview();
+
+        if (!empty($preview))
+        {
+            ?>
+            <div class="post__content">
+                <?= $markdown->parse(htmlspecialchars($preview)) ?>
+            </div>
+            <?php
+        }
+        ?>
+    </div>
+    <?php
+}
+
+// todo: надо бы виджеты сделать
+if ($totalPages > 1)
+{
+    for ($i = 1; $i <= $totalPages; $i++)
+    {
+        $htmlTag = $htmlTagOpen = $i === $page ? 'span' : 'a';
+
+        if ($htmlTagOpen === 'a')
+        {
+            $data = ['name' => $tag->getName()];
+
+            if ($i > 1)
+                $data['page'] = $i;
+
+            $htmlTagOpen .= " href=\"{$routeParser->urlFor('tag', $data)}\"";
+        }
+
+        echo '<' . $htmlTagOpen . '>' . $i . '</' . $htmlTag . '>';
+    }
+}

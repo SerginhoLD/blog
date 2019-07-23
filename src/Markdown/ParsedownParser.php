@@ -1,6 +1,4 @@
 <?php
-declare(strict_types = 1);
-
 namespace Blog\Markdown;
 
 use Parsedown;
@@ -26,8 +24,8 @@ class ParsedownParser implements ParserInterface
      * @param string $s
      * @return string
      */
-    public function parse(string $s): string
+    public function parse($s): string
     {
-        return $this->parsedown->text($s);
+        return $this->parsedown->text($s ?? '');
     }
 }

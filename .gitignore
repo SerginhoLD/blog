@@ -1,7 +1,3 @@
 .idea/
-.phalcon/*.json
-cache/views/*
-!cache/views/.gitkeep
-cache/data/*
-!cache/data/.gitkeep
 vendor/
+layout/node_modules/

@@ -1,18 +1,12 @@
 <?php
-/** @var \Phalcon\Mvc\Router $router */
+use Blog\Controller\BlogController;
 
-$router->notFound([
-    'action' => 'notFound',
-]);
+/** @var \Slim\App $app */
 
-$router->addGet('/', [
-    'action' => 'index',
-]);
+$app->get('/[page/{page:\d+}]', BlogController::class . ':blog')->setName('blog');
 
-$router->addGet('/page/{page:\d+}', [
-    'action' => 'blog',
-]);
+$app->get('/post/{slug}', BlogController::class . ':post')->setName('post');
 
-$router->addGet('/post/{slug:[a-z0-9]+}', [
-    'action' => 'post',
-]);
+$app->get('/tag/{name}[/page/{page:\d+}]', BlogController::class . ':tag')->setName('tag');
+
+$app->get('/contacts', BlogController::class . ':contacts')->setName('contacts');

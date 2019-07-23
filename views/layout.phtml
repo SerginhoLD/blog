@@ -1,0 +1,50 @@
+<?php
+use Slim\Interfaces\RouteParserInterface;
+use Blog\View\Asset;
+
+/**
+ * @var RouteParserInterface $routeParser
+ * @var Asset $asset
+ * @var string $content
+ */
+?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&amp;subset=cyrillic-ext" rel="stylesheet">
+    <link rel="stylesheet" href="<?= $asset->src('/css/main.css') ?>">
+    <title><?= htmlspecialchars($asset->getTitle()) ?></title>
+</head>
+<body>
+<div id="app" class="l-main">
+    <header class="l-header">
+        <div class="l-header__top">
+            <div class="container">
+                <a href="/" class="header-logo"><span class="header-logo__title">SerginhoLD</span></a>
+            </div>
+        </div>
+        <nav class="l-header__nav">
+            <div class="container">
+                <div class="row">
+                    <div class="tabs">
+                        <a href="<?= $routeParser->urlFor('blog') ?>" class="tabs__item">Блог</a>
+                        <a href="<?= $routeParser->urlFor('contacts') ?>" class="tabs__item">Контакты</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="l-content">
+        <main class="container"><?= $content ?></main>
+    </div>
+    <div class="l-footer">
+        <div class="container">
+            18+
+        </div>
+    </div>
+</div>
+<script src="<?= $asset->src('/js/build.js') ?>"></script>
+</body>
+</html>

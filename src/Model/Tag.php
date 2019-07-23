@@ -1,38 +1,14 @@
 <?php
 namespace Blog\Model;
 
-use Phalcon\Mvc\Model;
+use RedBeanPHP\SimpleModel;
 
 /**
  * Class Tag
  * @package Blog\Model
- *
- * @method static Tag[] find($parameters = null)
  */
-class Tag extends Model implements TagInterface
+class Tag extends SimpleModel implements TagInterface
 {
-    /**
-     * @Primary
-     * @Identity
-     * @Column(type='integer', nullable=false)
-     */
-    private $id;
-
-    /**
-     * @Column(type='varchar', length=45, nullable=false)
-     */
-    private $name;
-
-    /**
-     * @Column(type='varchar', length=45, nullable=true)
-     */
-    private $title;
-
-    public function initialize()
-    {
-        $this->setSource('tag');
-    }
-
     /**
      * @return int|null
      */

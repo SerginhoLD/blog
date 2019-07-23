@@ -1,0 +1,51 @@
+<?php
+use Slim\Views\PhpRenderer;
+use Slim\Interfaces\RouteParserInterface;
+use Blog\Markdown;
+use Blog\Utils\DateFormatter;
+use Blog\Model\PostInterface;
+use Blog\Model\TagInterface;
+
+/**
+ * @var PhpRenderer $this
+ * @var RouteParserInterface $routeParser
+ * @var PostInterface $post
+ * @var Markdown\ParserInterface $markdown
+ * @var DateFormatter $dateFormatter
+ */
+?>
+<div class="post">
+    <div class="post__date"><?= $dateFormatter->format($post->getCreatedAt()) ?></div>
+    <h1 class="post__title"><?= htmlspecialchars($post->getName()) ?></h1>
+    <?php
+    $tags = $post->getTags();
+
+    if (!empty($tags))
+    {
+        ?>
+        <div class="post__meta">
+            🏷️
+            <?php
+            /** @var TagInterface $tag */
+            while ($tag = current($tags))
+            {
+                $tagUrl = $routeParser->urlFor('tag', [
+                    'name' => $tag->getName(),
+                ]);
+                ?>
+                <a href="<?= $tagUrl ?>"><?= htmlspecialchars($tag->getTitle() ?? $tag->getName()) ?></a><?php
+
+                $tag = next($tags);
+
+                if ($tag)
+                    echo ', ';
+            }
+            ?>
+        </div>
+        <?php
+    }
+    ?>
+    <div class="post__content post__content--full">
+        <?= $markdown->parse(htmlspecialchars($post->getFullText())) ?>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+.container-fluid {
+  padding-left: $gutter * 4;
+  padding-right: $gutter * 4;
+  /*
+  @include media('tablet') {
+    padding-left: $gutter;
+    padding-right: $gutter;
+  }*/
+}
+
+.container {
+  margin: 0 auto;
+  padding-left: $gutter;
+  padding-right: $gutter;
+  width: $container-desktop-width;
+  max-width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left: -$gutter/2;
+  margin-right: -$gutter/2;
+}
+
+.col {
+  flex-basis: auto;
+  flex-grow: 1;
+  padding-left: $gutter/2;
+  padding-right: $gutter/2;
+  max-width: 100%;
+}
+
+@include grid-make-columns();
+
+@include media('tablet') {
+  @include grid-make-columns('t');
+}
+
+@include media('mobile') {
+  @include grid-make-columns('m');
+}

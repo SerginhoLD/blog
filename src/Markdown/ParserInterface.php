@@ -11,5 +11,5 @@ interface ParserInterface
      * @param string $s
      * @return string
      */
-    public function parse(string $s): string;
+    public function parse($s): string;
 }

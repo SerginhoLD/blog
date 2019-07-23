@@ -1,103 +1,68 @@
 <?php
-use Phalcon\DI;
-use Phalcon\Cache;
-use Phalcon\Mvc\Router;
-use Phalcon\Mvc\Dispatcher;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Db\Adapter\Pdo\Sqlite as Database;
-use Phalcon\Http\Response\Cookies;
+use UltraLite\Container\Container;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Slim\Factory\AppFactory;
+use Slim\Interfaces\CallableResolverInterface;
+use Slim\CallableResolver;
+use Slim\Interfaces\RouteCollectorInterface;
+use Slim\Routing\RouteCollector;
+use Slim\Views\PhpRenderer;
+use Blog\View;
 use Blog\Markdown;
+use Blog\Lists\PostList;
+use Blog\Utils\DateFormatter;
+use Blog\Controller;
 
-/** @var DI\FactoryDefault $di */
+/**
+ * @var string $projectDir
+ * @var Container $di
+ */
 
-$di->set('cache', function() use ($config) {
-    $frontCache = new Cache\Frontend\Igbinary([
-        'lifetime' => 86400,
-    ]);
+require_once __DIR__ . '/db.php';
 
-    return new Cache\Backend\File($frontCache, [
-        'cacheDir' => $config->cacheDir . '/data/',
-    ]);
+$di->set(ResponseFactoryInterface::class, function () {
+    return AppFactory::determineResponseFactory();
 });
 
-$di->setShared('router', function () use ($di, $config) {
-    $router = new Router(false);
-    $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
-    require $config->projectDir . '/config/routes.php';
-    return $router;
+$di->set(CallableResolverInterface::class, function () use ($di) {
+    return new CallableResolver($di);
 });
 
-$di->setShared('dispatcher', function() use ($di) {
-    $eventsManager = $di->getShared('eventsManager');
-    $eventsManager->attach('dispatch:beforeException', new \Blog\ExceptionEventHandler());
-    $eventsManager->attach('dispatch:beforeExecuteRoute', $di->getShared('auth'));
-
-    $dispatcher = new Dispatcher();
-    $dispatcher->setEventsManager($eventsManager);
-    $dispatcher->setDefaultNamespace('Blog\Controller');
-    return $dispatcher;
+$di->set(RouteCollectorInterface::class, function () use ($di) {
+    return new RouteCollector(
+        $di->get(ResponseFactoryInterface::class),
+        $di->get(CallableResolverInterface::class),
+        $di
+    );
 });
 
-$di->set('viewCache', function () use ($config) {
-    $frontCache = new Cache\Frontend\Output([
-        'lifetime' => 86400,
-    ]);
-
-    return new Cache\Backend\File($frontCache, [
-        'cacheDir' => $config->cacheDir . '/views/',
-    ]);
+$di->set(View\AssetInterface::class, function() use ($projectDir) {
+    return new View\Asset($projectDir . '/html');
 });
 
-$di->set('view', function () use ($di, $config) {
-    $view = new View();
-    $view->setDI($di);
-    $view->setViewsDir($config->projectDir . '/views/');
-
-    $view->registerEngines([
-        '.phtml' => View\Engine\Php::class
-    ]);
-
-    return $view;
-});
-
-$di->setShared('modelsMetadata', function() {
-    $metaData = new MetaData\Memory();
-    $metaData->setStrategy(new MetaData\Strategy\Annotations());
-    return $metaData;
-});
-
-$di->setShared('db', function () use ($config) {
-    $db = new Database([
-        'dbname' => $config->database->dbname,
-        'options' => [
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-            //\PDO::ATTR_PERSISTENT => true,
-        ],
-    ]);
-
-    $db->execute('PRAGMA foreign_keys = ON;');
-    return $db;
-});
-
-$di->setShared('users', function() use ($config) {
-    return new \Blog\Security\UserRepository($config->usersFile);
-});
-
-$di->setShared('AuthRepository', function() use ($config) {
-    return new \Blog\Security\AuthRepository($config->authFile);
-});
-
-$di->setShared('cookies', function() {
-    $cookies = new Cookies();
-    $cookies->useEncryption(false);
-    return $cookies;
-});
-
-$di->setShared('auth', function () {
-    return new \Blog\Security\AuthPlugin();
-});
-
-$di->setShared('markdown', function () {
+$di->set(Markdown\ParserInterface::class, function() use ($di) {
     return new Markdown\ParsedownParser(new \Parsedown());
 });
+
+$di->set(DateFormatter::class, function() {
+    return new DateFormatter();
+});
+
+$di->set('renderer', function() use ($projectDir, $di) {
+    return new PhpRenderer($projectDir . '/views', [
+        'asset' => $di->get(View\AssetInterface::class),
+        'markdown' => $di->get(Markdown\ParserInterface::class),
+        'dateFormatter' => $di->get(DateFormatter::class),
+        'routeParser' => $di->get(RouteCollectorInterface::class)->getRouteParser(),
+    ], 'layout.phtml');
+});
+
+$di->set(PostList::class, function() use ($di) {
+    return new PostList();
+});
+
+/*
+$di->set(Controller\BlogController::class, function() use ($di) {
+    return new Controller\BlogController($di);
+});
+*/

@@ -1,11 +1,17 @@
 {
   "name": "serginhold/blog",
-  "minimum-stability": "stable",
   "require": {
     "ext-json": "*",
+    "ultra-lite/container": "6.2.0",
+    "slim/slim": "4.0.0-beta",
+    "slim/psr7": "dev-master",
+    "slim/php-view": "2.2.1",
+    "gabordemooij/redbean": "v5.3.1",
     "erusev/parsedown": "1.7.3"
   },
-  "require-dev": {
-    "phalcon/ide-stubs": "v3.4.3"
+  "autoload": {
+    "psr-4": {
+      "Blog\\": "src/"
+    }
   }
 }

@@ -1,23 +1,25 @@
 <?php
-error_reporting(E_ALL);
+use UltraLite\Container\Container;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Slim\Interfaces\CallableResolverInterface;
+use Slim\Interfaces\RouteCollectorInterface;
+use Slim\Factory\AppFactory;
 
-use Phalcon\DI;
-use Phalcon\Mvc\Application;
+$projectDir = dirname(__DIR__);
 
-try
-{
-    $config = require __DIR__ . '/../config/config.php';
+require_once $projectDir . '/vendor/autoload.php';
 
-    require_once $config->projectDir . '/config/loader.php';
+$di = new Container();
+require_once $projectDir . '/config/services.php';
 
-    $di = new DI\FactoryDefault();
-    require $config->projectDir . '/config/services.php';
+$app = AppFactory::create(
+    $di->get(ResponseFactoryInterface::class),
+    $di,
+    $di->get(CallableResolverInterface::class),
+    $di->get(RouteCollectorInterface::class)
+);
 
-    $application = new Application($di);
-    $response = $application->handle();
-    $response->send();
-}
-catch (\Exception $e)
-{
-    var_dump($e);
-}
+require_once $projectDir . '/config/middleware.php';
+require_once $projectDir . '/config/routes.php';
+
+$app->run();
