@@ -8,11 +8,7 @@ use Blog\Markdown;
  * @var PostInterface $post
  * @var Markdown\ParserInterface $markdown
  */
+?>
+<h1><?= htmlspecialchars($post->getName()) ?></h1>
 
-var_dump([
-    'id' => $post->getId(),
-    'slug' => $post->getSlug(),
-    'name' => $post->getName(),
-    'text' => $markdown->parse($post->getFullText()),
-    'tags' => $post->getTags(),
-]);
+<?= $markdown->parse($post->getFullText()) ?>
