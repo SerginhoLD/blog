@@ -68,4 +68,9 @@ class BlogController extends AbstractController
             'post' => $post,
         ]);
     }
+
+    public function contacts(ServerRequestInterface $request, ResponseInterface $response, $args)
+    {
+        return $this->render($response, 'blog/contacts.phtml');
+    }
 }

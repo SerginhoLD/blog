@@ -1,7 +1,9 @@
 <?php
+use Slim\Interfaces\RouteParserInterface;
 use Blog\View\Asset;
 
 /**
+ * @var RouteParserInterface $routeParser
  * @var Asset $asset
  * @var string $content
  */
@@ -27,8 +29,8 @@ use Blog\View\Asset;
             <div class="container">
                 <div class="row">
                     <div class="tabs">
-                        <a href="/" class="tabs__item">Блог</a>
-                        <a href="/feedback" class="tabs__item">Контакты</a>
+                        <a href="<?= $routeParser->urlFor('blog') ?>" class="tabs__item">Блог</a>
+                        <a href="<?= $routeParser->urlFor('contacts') ?>" class="tabs__item">Контакты</a>
                     </div>
                 </div>
             </div>
