@@ -53,6 +53,7 @@ $di->set('renderer', function() use ($projectDir, $di) {
         'asset' => $di->get(View\AssetInterface::class),
         'markdown' => $di->get(Markdown\ParserInterface::class),
         'dateFormatter' => $di->get(DateFormatter::class),
+        'routeParser' => $di->get(RouteCollectorInterface::class)->getRouteParser(),
     ], 'layout.phtml');
 });
 

@@ -1,11 +1,13 @@
 <?php
 use Slim\Views\PhpRenderer;
+use Slim\Interfaces\RouteParserInterface;
 use Blog\Markdown;
 use Blog\Utils\DateFormatter;
 use Blog\Model\PostInterface;
 
 /**
  * @var PhpRenderer $this
+ * @var RouteParserInterface $routeParser
  * @var PostInterface $post
  * @var Markdown\ParserInterface $markdown
  * @var DateFormatter $dateFormatter
