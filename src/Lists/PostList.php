@@ -19,18 +19,21 @@ class PostList extends AbstractList
      */
     protected function execute(): ListInterface
     {
-        $count = R::count('post');
+        $parameters = $this->getParameters();
+        $sql = $parameters['sql'] ?? null;
+        $bind = $parameters['bind'] ?? [];
+
+        $count = R::count('post', $sql, $bind);
 
         if ($count < 1)
             return $this;
 
         $this->setCount($count);
 
-        $rList = R::find('post', 'ORDER BY id DESC LIMIT :offset, :limit', [
-            'offset' => (int)$this->getOffset(),
-            'limit' => (int)$this->getLimit(),
-        ]);
+        $bind['offset'] = (int)$this->getOffset();
+        $bind['limit'] = (int)$this->getLimit();
 
+        $rList = R::find('post', $sql . ' ORDER BY id DESC LIMIT :offset, :limit', $bind);
         $items = [];
 
         foreach ($rList as $item)

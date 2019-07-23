@@ -4,6 +4,7 @@ use Slim\Interfaces\RouteParserInterface;
 use Blog\Markdown;
 use Blog\Utils\DateFormatter;
 use Blog\Model\PostInterface;
+use Blog\Model\TagInterface;
 
 /**
  * @var PhpRenderer $this
@@ -36,10 +37,14 @@ foreach ($posts as $post)
             <div class="post__meta">
                 🏷️
                 <?php
+                /** @var TagInterface $tag */
                 while ($tag = current($tags))
                 {
+                    $tagUrl = $routeParser->urlFor('tag', [
+                        'name' => $tag->getName(),
+                    ]);
                     ?>
-                    <a href="#"><?= htmlspecialchars($tag->getTitle() ?? $tag->getName()) ?></a><?php
+                    <a href="<?= $tagUrl ?>"><?= htmlspecialchars($tag->getTitle() ?? $tag->getName()) ?></a><?php
 
                     $tag = next($tags);
 
