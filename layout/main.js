@@ -1,7 +1,7 @@
 import './scss/main.scss';
-/*import './node_modules/highlight.js/styles/default.css';
-import './node_modules/highlight.js/styles/color-brewer.css';
-import hljs from './node_modules/highlight.js';*/
+import 'highlight.js/styles/default.css';
+import 'highlight.js/styles/color-brewer.css';
+import hljs from 'highlight.js';
 
 //import Vue from './node_modules/vue/dist/vue.js';
 //import hello from './components/hello.vue';
@@ -16,7 +16,7 @@ const app = new Vue({
         commentForm: commentForm
     }
 });*/
-/*
+
 addEventListener('DOMContentLoaded', function() {
     hljs.initHighlightingOnLoad();
-});*/
+});

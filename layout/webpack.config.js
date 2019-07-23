@@ -20,7 +20,7 @@ module.exports = {
                 loader: 'url-loader?limit=8192&name=[path][name].[ext]' // todo: для копирования img в /public
             },
             {
-                test: /\.scss$/,
+                test: /\.(css|scss)$/,
                 use: [
                     // fallback to style-loader in development
                     //process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
