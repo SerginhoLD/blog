@@ -11,6 +11,7 @@ use Blog\Model\TagInterface;
  * @var RouteParserInterface $routeParser
  * @var Markdown\ParserInterface $markdown
  * @var DateFormatter $dateFormatter
+ * @var TagInterface $tag
  * @var PostInterface[] $posts
  * @var int $page
  * @var int $totalPages
@@ -26,7 +27,7 @@ foreach ($posts as $post)
     <div class="post">
         <div class="post__date"><?= $dateFormatter->format($post->getCreatedAt()) ?></div>
         <h2 class="post__title"><a href="<?= $postUrl ?>">
-            <?= htmlspecialchars($post->getName()) ?></a>
+                <?= htmlspecialchars($post->getName()) ?></a>
         </h2>
         <?php
         $tags = $post->getTags();
@@ -37,21 +38,21 @@ foreach ($posts as $post)
             <div class="post__meta">
                 🏷️
                 <?php
-                /** @var TagInterface $tag */
-                while ($tag = current($tags))
+                /** @var TagInterface $item */
+                while ($item = current($tags))
                 {
                     $tagUrl = $routeParser->urlFor('tag', [
-                        'name' => $tag->getName(),
+                        'name' => $item->getName(),
                     ]);
                     ?>
-                    <a href="<?= $tagUrl ?>"><?= htmlspecialchars($tag->getTitle() ?? $tag->getName()) ?></a><?php
+                    <a href="<?= $tagUrl ?>"><?= htmlspecialchars($item->getTitle() ?? $item->getName()) ?></a><?php
 
-                    $tag = next($tags);
+                    $item = next($tags);
 
-                    if ($tag)
+                    if ($item)
                         echo ', ';
                 }
-            ?>
+                ?>
             </div>
             <?php
         }
@@ -76,15 +77,18 @@ if ($totalPages > 1)
 {
     for ($i = 1; $i <= $totalPages; $i++)
     {
-        $tag = $tagOpen = $i === $page ? 'span' : 'a';
+        $htmlTag = $htmlTagOpen = $i === $page ? 'span' : 'a';
 
-        if ($tagOpen === 'a')
+        if ($htmlTagOpen === 'a')
         {
-            $data = $i > 1 ? ['page' => $i] : [];
+            $data = ['name' => $tag->getName()];
 
-            $tagOpen .= " href=\"{$routeParser->urlFor('blog', $data)}\"";
+            if ($i > 1)
+                $data['page'] = $i;
+
+            $htmlTagOpen .= " href=\"{$routeParser->urlFor('tag', $data)}\"";
         }
 
-        echo '<' . $tagOpen . '>' . $i . '</' . $tag . '>';
+        echo '<' . $htmlTagOpen . '>' . $i . '</' . $htmlTag . '>';
     }
 }

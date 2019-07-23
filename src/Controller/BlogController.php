@@ -121,7 +121,8 @@ class BlogController extends AbstractController
 
         $this->getAsset()->setTitle($title);
 
-        return $this->render($response, 'blog/index.phtml', [
+        return $this->render($response, 'blog/tag.phtml', [
+            'tag' => $tag,
             'page' => $posts->getPage(),
             'totalPages' => $posts->getTotalPages(),
             'posts' => $posts->getItems(),
