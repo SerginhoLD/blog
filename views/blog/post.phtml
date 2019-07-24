@@ -12,6 +12,8 @@ use Blog\Model\PostInterface;
  * @var Markdown\ParserInterface $markdown
  * @var DateFormatter $dateFormatter
  */
+
+//$postUrl = $routeParser->urlFor('post', ['slug' => $post->getSlug()]);
 ?>
 <div class="post">
     <div class="post__date"><?= $dateFormatter->format($post->getCreatedAt()) ?></div>
@@ -29,3 +31,10 @@ use Blog\Model\PostInterface;
     <a class="comments__init">Показать комментарии (Disqus)</a>
     <div id="disqus_thread" class="comments__content"></div>
 </div>
+
+<?php
+/*
+(<span class="disqus-comment-count" data-disqus-identifier="<?= $postUrl ?>">0</span>)
+
+<script id="dsq-count-scr" src="//serginhold.disqus.com/count.js" async></script>
+*/
