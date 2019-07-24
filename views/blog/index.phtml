@@ -39,7 +39,7 @@ foreach ($posts as $post)
         {
             ?>
             <div class="post__content">
-                <?= $markdown->parse(htmlspecialchars($preview)) ?>
+                <?= $markdown->parse($preview) ?>
             </div>
             <?php
         }

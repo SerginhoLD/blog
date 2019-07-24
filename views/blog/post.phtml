@@ -21,6 +21,6 @@ use Blog\Model\PostInterface;
     require __DIR__ . '/parts/post.tags.phtml';
     ?>
     <div class="post__content post__content--full">
-        <?= $markdown->parse(htmlspecialchars($post->getFullText())) ?>
+        <?= $markdown->parse($post->getFullText()) ?>
     </div>
 </div>

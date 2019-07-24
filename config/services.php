@@ -41,7 +41,9 @@ $di->set(View\AssetInterface::class, function() use ($projectDir) {
 });
 
 $di->set(Markdown\ParserInterface::class, function() use ($di) {
-    return new Markdown\ParsedownParser(new \Parsedown());
+    $parsedown = new \Parsedown();
+    $parsedown->setSafeMode(true);
+    return new Markdown\ParsedownParser($parsedown);
 });
 
 $di->set(DateFormatter::class, function() {
