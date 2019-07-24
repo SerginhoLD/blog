@@ -62,6 +62,11 @@ pre {
   border: 1px solid color(border);
 }
 
+pre, code {
+  font-size: font(size, base);
+  line-height: font(line-height, caption);
+}
+
 /*
 textarea {
   resize: vertical;

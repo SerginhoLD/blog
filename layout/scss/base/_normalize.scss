@@ -64,7 +64,7 @@ hr {
 
 pre {
   font-family: Consolas, monospace; /* 1 */
-  font-size: font(size, base); /* 2 */
+  //font-size: font(size, base); // 2
   max-width: 100%;
   //max-height: 200px; overflow: auto; // todo: test
 }
