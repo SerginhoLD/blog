@@ -1,0 +1,12 @@
+.comments {
+  margin: ($gutter * 3) 0 ($gutter * 2) 0;
+  
+  &__init {
+    display: inline-block;
+    border-bottom: 1px dashed;
+    border-bottom-color: inherit;
+    text-decoration: none !important;
+    cursor: pointer;
+    font-size: font(size, sub-title);
+  }
+}

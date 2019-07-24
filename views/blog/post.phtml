@@ -24,3 +24,8 @@ use Blog\Model\PostInterface;
         <?= $markdown->parse($post->getFullText()) ?>
     </div>
 </div>
+
+<div class="comments">
+    <a class="comments__init">Показать комментарии (Disqus)</a>
+    <div id="disqus_thread" class="comments__content"></div>
+</div>

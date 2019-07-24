@@ -28,4 +28,21 @@ const app = new Vue({
 
 addEventListener('DOMContentLoaded', function() {
     hljs.initHighlightingOnLoad();
+    
+    document.querySelector('.comments__init').addEventListener('click', function() {
+        
+        // https://disqus.com/admin/universalcode/#configuration-variables
+        
+        window.disqus_config = function () {
+            this.page.identifier = location.pathname;
+        };
+    
+        var s = document.createElement('script');
+        s.src = 'https://serginhold.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        
+        (document.head || document.body).appendChild(s);
+        
+        this.remove();
+    });
 });
