@@ -67,6 +67,11 @@ pre, code {
   line-height: font(line-height, caption);
 }
 
+.php .hljs-variable,
+.language-php .hljs-variable{
+  color: #c17900;
+}
+
 /*
 textarea {
   resize: vertical;
