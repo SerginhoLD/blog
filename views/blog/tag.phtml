@@ -15,6 +15,8 @@ use Blog\Model\TagInterface;
  * @var PostInterface[] $posts
  * @var int $page
  * @var int $totalPages
+ * @var string $paginationRoute
+ * @var array $paginationData
  */
 
 foreach ($posts as $post)
@@ -72,23 +74,4 @@ foreach ($posts as $post)
     <?php
 }
 
-// todo: надо бы виджеты сделать
-if ($totalPages > 1)
-{
-    for ($i = 1; $i <= $totalPages; $i++)
-    {
-        $htmlTag = $htmlTagOpen = $i === $page ? 'span' : 'a';
-
-        if ($htmlTagOpen === 'a')
-        {
-            $data = ['name' => $tag->getName()];
-
-            if ($i > 1)
-                $data['page'] = $i;
-
-            $htmlTagOpen .= " href=\"{$routeParser->urlFor('tag', $data)}\"";
-        }
-
-        echo '<' . $htmlTagOpen . '>' . $i . '</' . $htmlTag . '>';
-    }
-}
+require __DIR__ . '/parts/pagination.phtml';

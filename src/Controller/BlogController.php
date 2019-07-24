@@ -47,6 +47,8 @@ class BlogController extends AbstractController
             'page' => $posts->getPage(),
             'totalPages' => $posts->getTotalPages(),
             'posts' => $posts->getItems(),
+            'paginationRoute' => 'blog',
+            'paginationData' => [],
         ]);
     }
 
@@ -70,7 +72,6 @@ class BlogController extends AbstractController
         ]);
     }
 
-    // todo: надо бы отрефакторить, почти одинаково с :blog
     public function tag(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
         $name = $args['name'];
@@ -126,6 +127,10 @@ class BlogController extends AbstractController
             'page' => $posts->getPage(),
             'totalPages' => $posts->getTotalPages(),
             'posts' => $posts->getItems(),
+            'paginationRoute' => 'tag',
+            'paginationData' => [
+                'name' => $tag->getName(),
+            ],
         ]);
     }
 

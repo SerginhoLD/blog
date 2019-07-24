@@ -1,0 +1,28 @@
+<?php
+use Slim\Interfaces\RouteParserInterface;
+
+/**
+ * @var RouteParserInterface $routeParser
+ * @var int $page
+ * @var int $totalPages
+ * @var string $paginationRoute
+ * @var array $paginationData
+ */
+
+if ($totalPages > 1)
+{
+    for ($i = 1; $i <= $totalPages; $i++)
+    {
+        $paginationTag = $paginationTagOpen = $i === $page ? 'span' : 'a';
+
+        if ($paginationTagOpen === 'a')
+        {
+            if ($i > 1)
+                $paginationData['page'] = $i;
+
+            $paginationTagOpen .= sprintf(' href="%s"', $routeParser->urlFor($paginationRoute, $paginationData));
+        }
+
+        echo '<' . $paginationTagOpen . '>' . $i . '</' . $paginationTag . '>';
+    }
+}
