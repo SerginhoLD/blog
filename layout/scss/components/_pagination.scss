@@ -1,0 +1,8 @@
+.pagination {
+  margin: 0 0 ($gutter * 1.5) 0;
+  //font-size: font(size, sub-title);
+  
+  a, span {
+    padding: 0 0.8rem;
+  }
+}
