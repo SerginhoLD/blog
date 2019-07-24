@@ -1,0 +1,36 @@
+<?php
+use Slim\Interfaces\RouteParserInterface;
+use Blog\Model\TagInterface;
+
+/**
+ * @var RouteParserInterface $routeParser
+ * @var TagInterface[] $tags
+ */
+
+if (empty($tags))
+    return;
+
+?>
+<div class="post__meta">
+    🏷️
+    <?php
+    $item = current($tags);
+
+    /** @var TagInterface $item */
+    while ($item)
+    {
+        $itemUrl = $routeParser->urlFor('tag', [
+            'name' => $item->getName(),
+        ]);
+
+        $itemLink = sprintf('<a href="%s">%s</a>', $itemUrl, htmlspecialchars($item->getTitle() ?? $item->getName()));
+
+        $item = next($tags);
+
+        if ($item)
+            $itemLink .= ', ';
+
+        echo $itemLink;
+    }
+    ?>
+</div>
