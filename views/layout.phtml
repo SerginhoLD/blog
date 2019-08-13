@@ -2,11 +2,13 @@
 use Slim\Interfaces\RouteParserInterface;
 use Blog\View\AssetInterface;
 use Blog\View\MetaInterface;
+use Blog\Nav\NavInterface;
 
 /**
  * @var RouteParserInterface $routeParser
  * @var AssetInterface $asset
  * @var MetaInterface $meta
+ * @var NavInterface $nav
  * @var string $content
  */
 ?>
@@ -31,8 +33,16 @@ use Blog\View\MetaInterface;
             <div class="container">
                 <div class="row">
                     <div class="tabs">
-                        <a href="<?= $routeParser->urlFor('blog') ?>" class="tabs__item">Блог</a>
-                        <a href="<?= $routeParser->urlFor('contacts') ?>" class="tabs__item">Контакты</a>
+                        <?php
+                        $navItems = $nav->getItems();
+
+                        foreach ($navItems as $item)
+                        {
+                            ?>
+                            <a href="<?= $item['url'] ?>" class="tabs__item"><?= $item['name'] ?></a>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>

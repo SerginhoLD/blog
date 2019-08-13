@@ -7,6 +7,7 @@ use Slim\CallableResolver;
 use Slim\Interfaces\RouteCollectorInterface;
 use Slim\Routing\RouteCollector;
 use Slim\Views\PhpRenderer;
+use Blog\Nav;
 use Blog\View;
 use Blog\Markdown;
 use Blog\Lists\PostList;
@@ -44,6 +45,10 @@ $di->set(View\MetaInterface::class, function() {
     return new View\Meta();
 });
 
+$di->set(Nav\NavInterface::class, function() use ($di) {
+    return new Nav\Nav($di->get(RouteCollectorInterface::class)->getRouteParser());
+});
+
 $di->set(Markdown\ParserInterface::class, function() use ($di) {
     $parsedown = new \Parsedown();
     $parsedown->setSafeMode(true);
@@ -59,8 +64,9 @@ $di->set('renderer', function() use ($projectDir, $di) {
         'asset' => $di->get(View\AssetInterface::class),
         'meta' => $di->get(View\MetaInterface::class),
         'markdown' => $di->get(Markdown\ParserInterface::class),
-        'dateFormatter' => $di->get(Formatter\DateFormatterInterface::class),
+        'nav' => $di->get(Nav\NavInterface::class),
         'routeParser' => $di->get(RouteCollectorInterface::class)->getRouteParser(),
+        'dateFormatter' => $di->get(Formatter\DateFormatterInterface::class),
     ], 'layout.phtml');
 });
 
