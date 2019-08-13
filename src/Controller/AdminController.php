@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace Blog\Controller;
 
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Blog\Nav\NavInterface;
 
 /**
@@ -16,5 +18,10 @@ class AdminController extends AbstractController
     {
         parent::__construct($container);
         $this->container->get(NavInterface::class)->setStrategy(NavInterface::STRATEGY_ADMIN);
+    }
+
+    public function blog(ServerRequestInterface $request, ResponseInterface $response, $args)
+    {
+        return $this->render($response, 'admin/index.phtml');
     }
 }

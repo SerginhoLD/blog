@@ -60,7 +60,7 @@ class Nav implements NavInterface
             ]
             : [
                 [
-                    'url' => '/',//$this->routeParser->urlFor('admin'),
+                    'url' => $this->routeParser->urlFor('admin'),
                     'name' => 'Панель',
                 ],
             ];
