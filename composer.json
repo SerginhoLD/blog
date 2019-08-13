@@ -3,7 +3,7 @@
   "require": {
     "ext-json": "*",
     "ultra-lite/container": "6.2.0",
-    "slim/slim": "4.0.0-beta",
+    "slim/slim": "4.1.0",
     "slim/psr7": "dev-master",
     "slim/php-view": "2.2.1",
     "gabordemooij/redbean": "v5.3.1",
