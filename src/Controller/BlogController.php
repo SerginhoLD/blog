@@ -41,7 +41,7 @@ class BlogController extends AbstractController
         if ($page > 1)
             $title[] = 'Страница ' . $page;
 
-        $this->getAsset()->setTitle($title);
+        $this->getMeta()->setTitle($title);
 
         return $this->render($response, 'blog/index.phtml', [
             'page' => $posts->getPage(),
@@ -65,7 +65,7 @@ class BlogController extends AbstractController
 
         /** @var PostInterface $post */
         $post = $post->box();
-        $this->getAsset()->setTitle($post->getName());
+        $this->getMeta()->setTitle($post->getName());
 
         return $this->render($response, 'blog/post.phtml', [
             'post' => $post,
@@ -120,7 +120,7 @@ class BlogController extends AbstractController
         if ($page > 1)
             $title[] = 'Страница ' . $page;
 
-        $this->getAsset()->setTitle($title);
+        $this->getMeta()->setTitle($title);
 
         return $this->render($response, 'blog/tag.phtml', [
             'tag' => $tag,
@@ -136,6 +136,7 @@ class BlogController extends AbstractController
 
     public function contacts(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
+        $this->getMeta()->setTitle('Контакты');
         return $this->render($response, 'blog/contacts.phtml');
     }
 }

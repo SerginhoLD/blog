@@ -1,10 +1,12 @@
 <?php
 use Slim\Interfaces\RouteParserInterface;
-use Blog\View\Asset;
+use Blog\View\AssetInterface;
+use Blog\View\MetaInterface;
 
 /**
  * @var RouteParserInterface $routeParser
- * @var Asset $asset
+ * @var AssetInterface $asset
+ * @var MetaInterface $meta
  * @var string $content
  */
 ?>
@@ -15,7 +17,7 @@ use Blog\View\Asset;
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&amp;subset=cyrillic-ext" rel="stylesheet">
     <link rel="stylesheet" href="<?= $asset->src('/css/main.css') ?>">
-    <title><?= htmlspecialchars($asset->getTitle()) ?></title>
+    <title><?= htmlspecialchars($meta->getTitle()) ?></title>
 </head>
 <body>
 <div id="app" class="l-main">

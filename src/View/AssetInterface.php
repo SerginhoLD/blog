@@ -12,15 +12,4 @@ interface AssetInterface
      * @return string
      */
     public function src(string $src): string;
-
-    /**
-     * @return string
-     */
-    public function getTitle(): string;
-
-    /**
-     * @param string|string[] $title
-     * @return AssetInterface
-     */
-    public function setTitle($title): AssetInterface;
 }

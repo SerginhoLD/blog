@@ -3,13 +3,14 @@ declare(strict_types = 1);
 
 namespace Blog\Controller;
 
-use Blog\View\AssetInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\Interfaces\RouteCollectorInterface;
 use Slim\Interfaces\RouteParserInterface;
 use Slim\Views\PhpRenderer;
+use Blog\View\AssetInterface;
+use Blog\View\MetaInterface;
 
 /**
  * Class AbstractController
@@ -72,5 +73,13 @@ abstract class AbstractController
     protected function getAsset(): AssetInterface
     {
         return $this->container->get(AssetInterface::class);
+    }
+
+    /**
+     * @return MetaInterface
+     */
+    protected function getMeta(): MetaInterface
+    {
+        return $this->container->get(MetaInterface::class);
     }
 }

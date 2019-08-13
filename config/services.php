@@ -40,6 +40,10 @@ $di->set(View\AssetInterface::class, function() use ($projectDir) {
     return new View\Asset($projectDir . '/html');
 });
 
+$di->set(View\MetaInterface::class, function() {
+    return new View\Meta();
+});
+
 $di->set(Markdown\ParserInterface::class, function() use ($di) {
     $parsedown = new \Parsedown();
     $parsedown->setSafeMode(true);
@@ -53,6 +57,7 @@ $di->set(Formatter\DateFormatterInterface::class, function() {
 $di->set('renderer', function() use ($projectDir, $di) {
     return new PhpRenderer($projectDir . '/views', [
         'asset' => $di->get(View\AssetInterface::class),
+        'meta' => $di->get(View\MetaInterface::class),
         'markdown' => $di->get(Markdown\ParserInterface::class),
         'dateFormatter' => $di->get(Formatter\DateFormatterInterface::class),
         'routeParser' => $di->get(RouteCollectorInterface::class)->getRouteParser(),
