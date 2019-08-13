@@ -10,7 +10,7 @@ use Slim\Views\PhpRenderer;
 use Blog\View;
 use Blog\Markdown;
 use Blog\Lists\PostList;
-use Blog\Utils\DateFormatter;
+use Blog\Formatter;
 use Blog\Controller;
 
 /**
@@ -46,15 +46,15 @@ $di->set(Markdown\ParserInterface::class, function() use ($di) {
     return new Markdown\ParsedownParser($parsedown);
 });
 
-$di->set(DateFormatter::class, function() {
-    return new DateFormatter();
+$di->set(Formatter\DateFormatterInterface::class, function() {
+    return new Formatter\DateFormatter();
 });
 
 $di->set('renderer', function() use ($projectDir, $di) {
     return new PhpRenderer($projectDir . '/views', [
         'asset' => $di->get(View\AssetInterface::class),
         'markdown' => $di->get(Markdown\ParserInterface::class),
-        'dateFormatter' => $di->get(DateFormatter::class),
+        'dateFormatter' => $di->get(Formatter\DateFormatterInterface::class),
         'routeParser' => $di->get(RouteCollectorInterface::class)->getRouteParser(),
     ], 'layout.phtml');
 });

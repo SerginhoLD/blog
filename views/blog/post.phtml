@@ -2,7 +2,7 @@
 use Slim\Views\PhpRenderer;
 use Slim\Interfaces\RouteParserInterface;
 use Blog\Markdown;
-use Blog\Utils\DateFormatter;
+use Blog\Formatter\DateFormatterInterface;
 use Blog\Model\PostInterface;
 
 /**
@@ -10,7 +10,7 @@ use Blog\Model\PostInterface;
  * @var RouteParserInterface $routeParser
  * @var PostInterface $post
  * @var Markdown\ParserInterface $markdown
- * @var DateFormatter $dateFormatter
+ * @var DateFormatterInterface $dateFormatter
  */
 
 //$postUrl = $routeParser->urlFor('post', ['slug' => $post->getSlug()]);

@@ -1,16 +1,16 @@
 <?php
 declare(strict_types = 1);
 
-namespace Blog\Utils;
+namespace Blog\Formatter;
 
 use DateTimeInterface;
 use DateTime;
 
 /**
  * Class DateFormatter
- * @package Blog\Utils
+ * @package Blog\Formatter
  */
-class DateFormatter
+class DateFormatter implements DateFormatterInterface
 {
     /**
      * @param $date
