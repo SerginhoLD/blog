@@ -16,3 +16,5 @@ $app->get('/contacts', BlogController::class . ':contacts')->setName('contacts')
 // admin:
 
 $app->get('/admin', AdminController::class . ':blog')->setName('admin');
+
+$app->map(['GET', 'POST'], '/admin/create', AdminController::class . ':create')->setName('create');

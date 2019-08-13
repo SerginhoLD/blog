@@ -10,3 +10,4 @@ use RedBeanPHP\R;
 define('REDBEAN_MODEL_PREFIX', '\\Blog\\Model\\');
 
 R::setup('sqlite:/' . $projectDir . '/blog.sqlite');
+R::freeze(true);
