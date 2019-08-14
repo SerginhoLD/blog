@@ -171,6 +171,21 @@ textarea {
   margin: 0; /* 2 */
 }
 
+input,
+select,
+textarea {
+  display: block;
+  width: 100%;
+  //max-width: 100%;
+  padding: ($gutter / 2);
+  border: 1px solid color(border);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
 /**
  * Show the overflow in IE.
  * 1. Show the overflow in Edge.

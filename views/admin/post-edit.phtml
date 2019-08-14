@@ -18,33 +18,33 @@ use Blog\Model\TagInterface;
 $postId = $post->getId();
 ?>
 <h1><?= $postId > 0 ? "Редактирование записи #{$postId}" : 'Добавление записи' ?></h1>
-<form method="post" action="?id=<?= $postId ?>">
+<form class="form" method="post" action="?id=<?= $postId ?>">
     <?php if ($postId > 0): ?>
-        <p>
+        <div class="form__row">
             ID: <?= $post->getId() ?><br>
-            Создан: <?= $post->getCreatedAt() ?>
-        </p>
+            Дата создания: <?= $post->getCreatedAt() ?>
+        </div>
     <?php endif; ?>
-    <p>
-        <label>slug:</label>
+    <div class="form__row">
+        <label class="form__label">Код: <span class="req">*</span></label>
         <input name="slug" type="text" value="<?= htmlspecialchars($post->getSlug()) ?>">
-    </p>
-    <p>
-        <label>Заголовок:</label>
+    </div>
+    <div class="form__row">
+        <label class="form__label">Заголовок: <span class="req">*</span></label>
         <input name="name" type="text" value="<?= htmlspecialchars($post->getName()) ?>" required>
-    </p>
-    <p>
-        <label>Preview:</label>
+    </div>
+    <div class="form__row">
+        <label class="form__label">Превью текст:</label>
         <textarea name="preview"><?= htmlspecialchars($post->getPreview()) ?></textarea>
-    </p>
-    <p>
-        <label>Текст:</label>
+    </div>
+    <div class="form__row">
+        <label class="form__label">Текст: <span class="req">*</span></label>
         <textarea name="text" required><?= htmlspecialchars($post->getText()) ?></textarea>
-    </p>
-    <p>
-        <label>Теги:</label>
+    </div>
+    <div class="form__row">
+        <label class="form__label">Теги:</label>
         <select name="tags[]" size="5" multiple>
-            <option>Выберите тег</option>
+            <option>Выберите тег:</option>
             <?php
             $postTags = $post->getTags();
 
@@ -57,8 +57,8 @@ $postId = $post->getId();
             }
             ?>
         </select>
-    </p>
-    <p>
-        <button type="submit">Сохранить</button>
+    </div>
+    <p class="form__row form__footer">
+        <button class="btn btn--primary" type="submit">Сохранить</button>
     </p>
 </form>

@@ -1,0 +1,13 @@
+.form {
+  &__row {
+    margin-bottom: $gutter;
+  }
+  
+  &__label {
+    font-weight: bold;
+    
+    .req {
+      color: red;
+    }
+  }
+}
