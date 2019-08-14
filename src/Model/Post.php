@@ -16,7 +16,7 @@ class Post extends SimpleModel implements PostInterface
      */
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id ?? null;
     }
 
     /**
@@ -24,7 +24,7 @@ class Post extends SimpleModel implements PostInterface
      */
     public function getSlug(): ?string
     {
-        return $this->slug;
+        return $this->slug ?? null;
     }
 
     /**
@@ -32,7 +32,7 @@ class Post extends SimpleModel implements PostInterface
      */
     public function getName(): ?string
     {
-        return $this->name;
+        return $this->name ?? null;
     }
 
     /**
@@ -40,7 +40,7 @@ class Post extends SimpleModel implements PostInterface
      */
     public function getPreview(): ?string
     {
-        return $this->preview;
+        return $this->preview ?? null;
     }
 
     /**
@@ -48,7 +48,7 @@ class Post extends SimpleModel implements PostInterface
      */
     public function getText(): ?string
     {
-        return $this->text;
+        return $this->text ?? null;
     }
 
     /**
@@ -56,7 +56,7 @@ class Post extends SimpleModel implements PostInterface
      */
     public function getCreatedAt(): ?string
     {
-        return $this->created_at;
+        return $this->created_at ?? null;
     }
 
     /**

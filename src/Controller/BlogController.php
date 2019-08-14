@@ -17,7 +17,7 @@ class BlogController extends AbstractController
 {
     public function blog(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        $page = (int)$args['page'];
+        $page = isset($args['page']) ? (int)$args['page'] : null;
 
         if ($page === 1)
         {
@@ -75,7 +75,7 @@ class BlogController extends AbstractController
     public function tag(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
         $name = $args['name'];
-        $page = (int)$args['page'];
+        $page = isset($args['page']) ? (int)$args['page'] : null;
 
         if ($page === 1)
         {

@@ -30,7 +30,7 @@ class AdminController extends AbstractController
     public function create(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
         $queryParams = $request->getQueryParams();
-        $id = (int)$queryParams['id'];
+        $id = isset($queryParams['id']) ? (int)$queryParams['id'] : null;
         $post = null;
 
         if ($id)

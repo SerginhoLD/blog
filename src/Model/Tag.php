@@ -14,7 +14,7 @@ class Tag extends SimpleModel implements TagInterface
      */
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id ?? null;
     }
 
     /**
@@ -22,7 +22,7 @@ class Tag extends SimpleModel implements TagInterface
      */
     public function getName(): ?string
     {
-        return $this->name;
+        return $this->name ?? null;
     }
 
     /**
@@ -30,6 +30,6 @@ class Tag extends SimpleModel implements TagInterface
      */
     public function getTitle(): ?string
     {
-        return $this->title;
+        return $this->title ?? null;
     }
 }
