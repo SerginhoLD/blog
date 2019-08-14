@@ -27,7 +27,7 @@ $postId = $post->getId();
     <?php endif; ?>
     <div class="form__row">
         <label class="form__label">Код: <span class="req">*</span></label>
-        <input name="slug" type="text" value="<?= htmlspecialchars($post->getSlug()) ?>">
+        <input name="slug" type="text" value="<?= htmlspecialchars($post->getSlug()) ?>" required>
     </div>
     <div class="form__row">
         <label class="form__label">Заголовок: <span class="req">*</span></label>
@@ -58,7 +58,7 @@ $postId = $post->getId();
             ?>
         </select>
     </div>
-    <p class="form__row form__footer">
+    <div class="form__row form__footer">
         <button class="btn btn--primary" type="submit">Сохранить</button>
-    </p>
+    </div>
 </form>

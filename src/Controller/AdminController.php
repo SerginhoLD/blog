@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Blog\Db\R;
 use Blog\Nav\NavInterface;
 use Blog\Model\Post;
+use Blog\Model\Tag;
 
 /**
  * Class AdminController
@@ -59,6 +60,35 @@ class AdminController extends AbstractController
         return $this->render($response, 'admin/post-edit.phtml', [
             'post' => $post,
             'tags' => $tags,
+        ]);
+    }
+
+    public function tagEdit(ServerRequestInterface $request, ResponseInterface $response, $args)
+    {
+        $queryParams = $request->getQueryParams();
+        $id = isset($queryParams['id']) ? (int)$queryParams['id'] : null;
+
+        $tag = R::findOneOrDispense('tag', 'id = :id', [
+            'id' => $id,
+        ]);
+
+        if ($request->getMethod() === 'POST')
+        {
+            $parsedBody = $request->getParsedBody();
+
+            if (empty($parsedBody['title']))
+                $parsedBody['title'] = null;
+
+            $tag->import($parsedBody, 'name,title');
+            $newId = R::store($tag);
+            return $this->redirect($this->getRouteParser()->urlFor('tag-edit', [], ['id' => $newId]));
+        }
+
+        /** @var Tag $tag */
+        $tag = $tag ? $tag->box() : new Tag();
+
+        return $this->render($response, 'admin/tag-edit.phtml', [
+            'tag' => $tag,
         ]);
     }
 }

@@ -18,3 +18,5 @@ $app->get('/contacts', BlogController::class . ':contacts')->setName('contacts')
 $app->get('/admin', AdminController::class . ':blog')->setName('admin');
 
 $app->map(['GET', 'POST'], '/admin/post-edit', AdminController::class . ':postEdit')->setName('post-edit');
+
+$app->map(['GET', 'POST'], '/admin/tag-edit', AdminController::class . ':tagEdit')->setName('tag-edit');

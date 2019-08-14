@@ -67,6 +67,10 @@ class Nav implements NavInterface
                     'url' => $this->routeParser->urlFor('post-edit'),
                     'name' => 'Добавить запись',
                 ],
+                [
+                    'url' => $this->routeParser->urlFor('tag-edit'),
+                    'name' => 'Добавить тег',
+                ],
             ];
     }
 }

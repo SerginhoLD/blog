@@ -1,0 +1,36 @@
+<?php
+use Slim\Views\PhpRenderer;
+use Slim\Interfaces\RouteParserInterface;
+use Blog\Markdown;
+use Blog\Formatter\DateFormatterInterface;
+use Blog\Model\TagInterface;
+
+/**
+ * @var PhpRenderer $this
+ * @var RouteParserInterface $routeParser
+ * @var Markdown\ParserInterface $markdown
+ * @var DateFormatterInterface $dateFormatter
+ * @var TagInterface $tag
+ */
+
+$tagId = $tag->getId();
+?>
+<h1><?= $tagId > 0 ? "Редактирование тега #{$tagId}" : 'Добавление тега' ?></h1>
+<form class="form" method="post" action="?id=<?= $tagId ?>">
+    <?php if ($tagId > 0): ?>
+        <div class="form__row">
+            ID: <?= $tagId ?>
+        </div>
+    <?php endif; ?>
+    <div class="form__row">
+        <label class="form__label">Имя: <span class="req">*</span></label>
+        <input name="name" type="text" value="<?= htmlspecialchars($tag->getName()) ?>" required>
+    </div>
+    <div class="form__row">
+        <label class="form__label">Заголовок:</label>
+        <input name="title" type="text" value="<?= htmlspecialchars($tag->getTitle()) ?>">
+    </div>
+    <div class="form__row form__footer">
+        <button class="btn btn--primary" type="submit">Сохранить</button>
+    </div>
+</form>
