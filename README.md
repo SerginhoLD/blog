@@ -5,7 +5,8 @@
 ## Установка
 
 1) git, composer
-2) `docker build -f docker/Dockerfile -t serginhold/blog:latest .` \
+2) создать .env файл
+3) `docker build -f docker/Dockerfile -t serginhold/blog:latest .` \
 `docker-compose up -d`
 
 ## Console
