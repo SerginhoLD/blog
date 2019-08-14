@@ -64,7 +64,7 @@ class Nav implements NavInterface
                     'name' => 'Админ.панель',
                 ],
                 [
-                    'url' => $this->routeParser->urlFor('create'),
+                    'url' => $this->routeParser->urlFor('post-edit'),
                     'name' => 'Добавить запись',
                 ],
             ];

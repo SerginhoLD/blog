@@ -4,6 +4,7 @@ use Slim\Interfaces\RouteParserInterface;
 use Blog\Markdown;
 use Blog\Formatter\DateFormatterInterface;
 use Blog\Model\PostInterface;
+use Blog\Model\TagInterface;
 
 /**
  * @var PhpRenderer $this
@@ -11,14 +12,14 @@ use Blog\Model\PostInterface;
  * @var Markdown\ParserInterface $markdown
  * @var DateFormatterInterface $dateFormatter
  * @var PostInterface $post
+ * @var TagInterface[] $tags
  */
 
-$id = $post->getId();
-//var_dump($post);
+$postId = $post->getId();
 ?>
-<h1><?= $id > 0 ? "Редактирование записи #{$id}" : 'Добавление записи' ?></h1>
-<form method="post" action="?id=<?= $id ?>">
-    <?php if ($id > 0): ?>
+<h1><?= $postId > 0 ? "Редактирование записи #{$postId}" : 'Добавление записи' ?></h1>
+<form method="post" action="?id=<?= $postId ?>">
+    <?php if ($postId > 0): ?>
         <p>
             ID: <?= $post->getId() ?><br>
             Создан: <?= $post->getCreatedAt() ?>
@@ -39,6 +40,23 @@ $id = $post->getId();
     <p>
         <label>Текст:</label>
         <textarea name="text" required><?= htmlspecialchars($post->getText()) ?></textarea>
+    </p>
+    <p>
+        <label>Теги:</label>
+        <select name="tags[]" size="5" multiple>
+            <option>Выберите тег</option>
+            <?php
+            $postTags = $post->getTags();
+
+            foreach ($tags as $tagId => $tag)
+            {
+                $selected = isset($postTags[$tagId]) ? 'selected' : null;
+                ?>
+                <option value="<?= $tagId ?>" <?= $selected ?>><?= htmlspecialchars($tag->getName()) ?> [<?= $tagId ?>]</option>
+                <?php
+            }
+            ?>
+        </select>
     </p>
     <p>
         <button type="submit">Сохранить</button>

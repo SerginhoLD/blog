@@ -6,7 +6,7 @@ namespace Blog\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use RedBeanPHP\R;
+use Blog\Db\R;
 use Blog\Nav\NavInterface;
 use Blog\Model\Post;
 
@@ -27,32 +27,38 @@ class AdminController extends AbstractController
         return $this->render($response, 'admin/index.phtml');
     }
 
-    public function create(ServerRequestInterface $request, ResponseInterface $response, $args)
+    public function postEdit(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
         $queryParams = $request->getQueryParams();
         $id = isset($queryParams['id']) ? (int)$queryParams['id'] : null;
-        $post = null;
 
-        if ($id)
-        {
-            $post = R::findOne('post', 'id = :id', [
-                'id' => $id,
-            ]);
-        }
+        $post = R::findOneOrDispense('post', 'id = :id', [
+            'id' => $id,
+        ]);
 
         if ($request->getMethod() === 'POST')
         {
-            $post = $post ?? R::dispense('post');
-            $post->import($request->getParsedBody(), 'slug,name,preview,text');
+            $parsedBody = $request->getParsedBody();
+            $post->import($parsedBody, 'slug,name,preview,text');
+            $tags = [];
+
+            if (isset($parsedBody['tags']))
+            {
+                $tags = R::find('tag', ' id IN ('.R::genSlots($parsedBody['tags']).')', $parsedBody['tags']);
+            }
+
+            $post->sharedTag = $tags;
             $newId = R::store($post);
-            return $this->redirect($this->getRouteParser()->urlFor('create', [], ['id' => $newId]));
+            return $this->redirect($this->getRouteParser()->urlFor('post-edit', [], ['id' => $newId]));
         }
 
         /** @var Post $post */
         $post = $post ? $post->box() : new Post();
+        $tags = R::findObjects('tag');
 
-        return $this->render($response, 'admin/create.phtml', [
+        return $this->render($response, 'admin/post-edit.phtml', [
             'post' => $post,
+            'tags' => $tags,
         ]);
     }
 }
