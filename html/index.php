@@ -5,6 +5,15 @@ use Slim\Interfaces\CallableResolverInterface;
 use Slim\Interfaces\RouteCollectorInterface;
 use Slim\Factory\AppFactory;
 
+set_error_handler(function ($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) {
+        // Этот код ошибки не входит в error_reporting
+        return;
+    }
+
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
+
 $projectDir = dirname(__DIR__);
 
 require_once $projectDir . '/vendor/autoload.php';
