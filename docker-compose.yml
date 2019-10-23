@@ -2,13 +2,19 @@ version: '3'
 
 services:
   web:
-    image: serginhold/blog:latest
-    container_name: blog
+    image: nginx:1.17-alpine
     ports:
       - ${PROJECT_LOCAL_IP}:${PROJECT_LOCAL_PORT}:80
+    volumes:
+      - ./docker/nginx/blog.conf:/etc/nginx/conf.d/blog.conf
+      - ./:/var/www
+    links:
+      - php
+  php:
+    container_name: blog
+    image: serginhold/blog:latest
     environment:
       PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d_ext:/usr/local/etc/php/conf.d"
     volumes:
       - ./docker/php:/usr/local/etc/php/conf.d_ext
       - ./:/var/www
-    restart: always

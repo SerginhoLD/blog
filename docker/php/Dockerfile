@@ -1,18 +1,16 @@
-FROM php:7.3.6-apache
-# install: curl, json, mbstring, fileinfo, openssl, pcre, pdo_sqlite
+FROM php:7.3.10-fpm-alpine
 
-# docker build -f docker/Dockerfile -t serginhold/blog:latest .
+# docker build -f docker/php/Dockerfile -t serginhold/blog:latest .
 # docker exec -i -t blog bash -c "cd /var/www; bash"
 
-RUN apt-get update \
-    && apt-get install zip unzip \
-    # apache
-    && a2enmod rewrite \
+# https://github.com/Docker-Hub-frolvlad/docker-alpine-bash/blob/master/Dockerfile    bash
+# https://github.com/prooph/docker-files/blob/master/php/7.1-fpm                      php-ext
+RUN apk update && apk add --no-cache bash $PHPIZE_DEPS \
     # php extensions
     && docker-php-ext-configure opcache --enable-opcache \
     && docker-php-ext-install \
         opcache \
-        gettext \
+        #gettext \
     && pecl install xdebug-2.7.2 \
     && docker-php-ext-enable xdebug
 
