@@ -5,14 +5,18 @@ FROM php:7.3.10-fpm-alpine
 
 # https://github.com/Docker-Hub-frolvlad/docker-alpine-bash/blob/master/Dockerfile    bash
 # https://github.com/prooph/docker-files/blob/master/php/7.1-fpm                      php-ext
-RUN apk update && apk add --no-cache bash $PHPIZE_DEPS \
-    # php extensions
+
+RUN apk --update add bash
+
+# php
+RUN apk --update add --no-cache --virtual build-php $PHPIZE_DEPS \
     && docker-php-ext-configure opcache --enable-opcache \
     && docker-php-ext-install \
         opcache \
         #gettext \
     && pecl install xdebug-2.7.2 \
-    && docker-php-ext-enable xdebug
+    && docker-php-ext-enable xdebug \
+    && apk del build-php
 
 # composer
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
