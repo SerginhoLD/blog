@@ -9,8 +9,6 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\Interfaces\RouteCollectorInterface;
 use Slim\Interfaces\RouteParserInterface;
 use Slim\Views\PhpRenderer;
-use Blog\View\AssetInterface;
-use Blog\View\MetaInterface;
 
 /**
  * Class AbstractController
@@ -65,21 +63,5 @@ abstract class AbstractController
         /** @var RouteCollectorInterface $collector */
         $collector = $this->container->get(RouteCollectorInterface::class);
         return $collector->getRouteParser();
-    }
-
-    /**
-     * @return AssetInterface
-     */
-    protected function getAsset(): AssetInterface
-    {
-        return $this->container->get(AssetInterface::class);
-    }
-
-    /**
-     * @return MetaInterface
-     */
-    protected function getMeta(): MetaInterface
-    {
-        return $this->container->get(MetaInterface::class);
     }
 }

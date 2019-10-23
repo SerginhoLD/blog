@@ -8,6 +8,7 @@ use RedBeanPHP\R;
 use Blog\Lists\PostList;
 use Blog\Model\PostInterface;
 use Blog\Model\TagInterface;
+use Blog\View\MetaInterface;
 
 /**
  * Class BlogController
@@ -41,7 +42,7 @@ class BlogController extends AbstractController
         if ($page > 1)
             $title[] = 'Страница ' . $page;
 
-        $this->getMeta()->setTitle($title);
+        $this->container->get(MetaInterface::class)->setTitle($title);
 
         return $this->render($response, 'blog/index.phtml', [
             'page' => $posts->getPage(),
@@ -65,7 +66,7 @@ class BlogController extends AbstractController
 
         /** @var PostInterface $post */
         $post = $post->box();
-        $this->getMeta()->setTitle($post->getName());
+        $this->container->get(MetaInterface::class)->setTitle($post->getName());
 
         return $this->render($response, 'blog/post.phtml', [
             'post' => $post,
@@ -120,7 +121,7 @@ class BlogController extends AbstractController
         if ($page > 1)
             $title[] = 'Страница ' . $page;
 
-        $this->getMeta()->setTitle($title);
+        $this->container->get(MetaInterface::class)->setTitle($title);
 
         return $this->render($response, 'blog/tag.phtml', [
             'tag' => $tag,
@@ -136,7 +137,7 @@ class BlogController extends AbstractController
 
     public function contacts(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        $this->getMeta()->setTitle('Контакты');
+        $this->container->get(MetaInterface::class)->setTitle('Контакты');
         return $this->render($response, 'blog/contacts.phtml');
     }
 }
