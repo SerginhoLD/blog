@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7492f236213c7891f28517dc7d5cc49",
+    "content-hash": "1a01c7314ad4c1925f0924661cc39e5b",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -541,12 +541,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim-Psr7.git",
-                "reference": "78ff6b88a4ab548d3c83277d57cf74e9ff3a6f57"
+                "reference": "23015a8814382c244315602d44cb02d412b6b059"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim-Psr7/zipball/78ff6b88a4ab548d3c83277d57cf74e9ff3a6f57",
-                "reference": "78ff6b88a4ab548d3c83277d57cf74e9ff3a6f57",
+                "url": "https://api.github.com/repos/slimphp/Slim-Psr7/zipball/23015a8814382c244315602d44cb02d412b6b059",
+                "reference": "23015a8814382c244315602d44cb02d412b6b059",
                 "shasum": ""
             },
             "require": {
@@ -561,7 +561,7 @@
             },
             "require-dev": {
                 "ext-json": "*",
-                "http-interop/http-factory-tests": "^0.5.0",
+                "http-interop/http-factory-tests": "^0.6.0",
                 "php-http/psr7-integration-tests": "dev-master",
                 "phpstan/phpstan": "^0.10",
                 "phpunit/phpunit": "^6.0|^7.0",
@@ -606,20 +606,20 @@
                 "psr-7",
                 "psr7"
             ],
-            "time": "2019-08-11T20:44:35+00:00"
+            "time": "2019-10-05T20:27:07+00:00"
         },
         {
             "name": "slim/slim",
-            "version": "4.1.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "d3c69bc624728bcdd32e836025462cfeb5311534"
+                "reference": "26020e9a099e69b0b12918115894f7106364dcb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/d3c69bc624728bcdd32e836025462cfeb5311534",
-                "reference": "d3c69bc624728bcdd32e836025462cfeb5311534",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/26020e9a099e69b0b12918115894f7106364dcb7",
+                "reference": "26020e9a099e69b0b12918115894f7106364dcb7",
                 "shasum": ""
             },
             "require": {
@@ -647,6 +647,8 @@
                 "zendframework/zend-diactoros": "^2.1"
             },
             "suggest": {
+                "ext-simplexml": "Needed to support XML format in BodyParsingMiddleware",
+                "ext-xml": "Needed to support XML format in BodyParsingMiddleware",
                 "slim/psr7": "Slim PSR-7 implementation. See http://www.slimframework.com/docs/v4/start/installation.html for more information."
             },
             "type": "library",
@@ -688,14 +690,14 @@
                 }
             ],
             "description": "Slim is a PHP micro framework that helps you quickly write simple yet powerful web applications and APIs",
-            "homepage": "https://slimframework.com",
+            "homepage": "https://www.slimframework.com",
             "keywords": [
                 "api",
                 "framework",
                 "micro",
                 "router"
             ],
-            "time": "2019-08-06T20:31:05+00:00"
+            "time": "2019-10-05T21:24:58+00:00"
         },
         {
             "name": "ultra-lite/container",

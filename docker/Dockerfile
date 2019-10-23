@@ -5,6 +5,7 @@ FROM php:7.3.6-apache
 # docker exec -i -t blog bash -c "cd /var/www; bash"
 
 RUN apt-get update \
+    && apt-get install zip unzip \
     # apache
     && a2enmod rewrite \
     # php extensions
