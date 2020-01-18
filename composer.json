@@ -3,11 +3,11 @@
   "require": {
     "ext-json": "*",
     "ultra-lite/container": "6.2.0",
-    "slim/slim": "4.3.0",
-    "slim/psr7": "dev-master",
+    "slim/slim": "4.4.0",
+    "slim/psr7": "1.0.0",
     "slim/php-view": "2.2.1",
-    "gabordemooij/redbean": "v5.3.1",
-    "erusev/parsedown": "1.7.3"
+    "gabordemooij/redbean": "v5.4.2",
+    "erusev/parsedown": "1.7.4"
   },
   "autoload": {
     "psr-4": {
