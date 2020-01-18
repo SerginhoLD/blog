@@ -1,4 +1,4 @@
-FROM php:7.3.10-fpm-alpine
+FROM php:7.4.1-fpm-alpine
 
 # docker build -f docker/php/Dockerfile -t serginhold/blog:latest .
 # docker exec -i -t blog bash -c "cd /var/www; bash"
@@ -14,7 +14,7 @@ RUN apk --update add --no-cache --virtual build-php $PHPIZE_DEPS \
     && docker-php-ext-install \
         opcache \
         #gettext \
-    && pecl install xdebug-2.7.2 \
+    && pecl install xdebug-2.9.1 \
     && docker-php-ext-enable xdebug \
     && apk del build-php
 
