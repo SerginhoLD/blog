@@ -3,13 +3,15 @@ declare(strict_types = 1);
 
 namespace Blog\Controller;
 
+use Blog\Entity\Post;
+use Blog\Entity\Tag;
+use Blog\Nav\NavInterface;
+use Blog\Repository\PostRepository;
+use Blog\Repository\TagRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Blog\Db\R;
-use Blog\Nav\NavInterface;
-use Blog\Model\Post;
-use Blog\Model\Tag;
 
 /**
  * Class AdminController
@@ -30,62 +32,87 @@ class AdminController extends AbstractController
 
     public function postEdit(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
+        $entityManager = $this->container->get(EntityManagerInterface::class);
         $queryParams = $request->getQueryParams();
         $id = isset($queryParams['id']) ? (int)$queryParams['id'] : null;
+        $post = null;
 
-        $post = R::findOneOrDispense('post', 'id = :id', [
-            'id' => $id,
-        ]);
+        /** @var PostRepository $repository */
+        $repository = $entityManager->getRepository(Post::class);
+
+        /** @var TagRepository $tagsRepository */
+        $tagsRepository = $entityManager->getRepository(Tag::class);
+
+        if ($id)
+            $post = $repository->find($id);
+
+        if (!$post)
+            $post = new Post();
 
         if ($request->getMethod() === 'POST')
         {
             $parsedBody = $request->getParsedBody();
-            $post->import($parsedBody, 'slug,name,preview,text');
-            $tags = [];
+
+            $post->setSlug($parsedBody['slug'])
+                ->setName($parsedBody['name'])
+                ->setPreview($parsedBody['preview'])
+                ->setText($parsedBody['text']);
+
+            $post->getTags()->clear();
 
             if (isset($parsedBody['tags']))
             {
-                $tags = R::find('tag', ' id IN ('.R::genSlots($parsedBody['tags']).')', $parsedBody['tags']);
+                $tags = $tagsRepository->findBy([
+                    'id' => $parsedBody['tags'],
+                ]);
+
+                /** @var Tag $tag */
+                foreach ($tags as $tag)
+                {
+                    $post->getTags()->add($tag);
+                }
             }
 
-            $post->sharedTag = $tags;
-            $newId = R::store($post);
-            return $this->redirect($this->getRouteParser()->urlFor('post-edit', [], ['id' => $newId]));
-        }
+            $entityManager->persist($post);
+            $entityManager->flush();
 
-        /** @var Post $post */
-        $post = $post ? $post->box() : new Post();
-        $tags = R::findObjects('tag');
+            return $this->redirect($this->getRouteParser()->urlFor('post-edit', [], ['id' => $post->getId()]));
+        }
 
         return $this->render($response, 'admin/post-edit.phtml', [
             'post' => $post,
-            'tags' => $tags,
+            'tags' => $tagsRepository->findAll(),
         ]);
     }
 
     public function tagEdit(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
+        $entityManager = $this->container->get(EntityManagerInterface::class);
         $queryParams = $request->getQueryParams();
         $id = isset($queryParams['id']) ? (int)$queryParams['id'] : null;
+        $tag = null;
 
-        $tag = R::findOneOrDispense('tag', 'id = :id', [
-            'id' => $id,
-        ]);
+        /** @var TagRepository $tagsRepository */
+        $repository = $entityManager->getRepository(Tag::class);
+
+        if ($id)
+            $tag = $repository->find($id);
+
+        if (!$tag)
+            $tag = new Tag();
 
         if ($request->getMethod() === 'POST')
         {
             $parsedBody = $request->getParsedBody();
 
-            if (empty($parsedBody['title']))
-                $parsedBody['title'] = null;
+            $tag->setName($parsedBody['name'])
+                ->setTitle(!empty($parsedBody['title']) ? $parsedBody['title'] : null);
 
-            $tag->import($parsedBody, 'name,title');
-            $newId = R::store($tag);
-            return $this->redirect($this->getRouteParser()->urlFor('tag-edit', [], ['id' => $newId]));
+            $entityManager->persist($tag);
+            $entityManager->flush();
+
+            return $this->redirect($this->getRouteParser()->urlFor('tag-edit', [], ['id' => $tag->getId()]));
         }
-
-        /** @var Tag $tag */
-        $tag = $tag ? $tag->box() : new Tag();
 
         return $this->render($response, 'admin/tag-edit.phtml', [
             'tag' => $tag,

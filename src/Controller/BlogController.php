@@ -1,14 +1,16 @@
 <?php
 namespace Blog\Controller;
 
+use Blog\Entity\Post;
+use Blog\Entity\Tag;
+use Blog\Nav\Pagination;
+use Blog\Repository\PostRepository;
+use Blog\Repository\TagRepository;
+use Blog\View\MetaInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotFoundException;
-use RedBeanPHP\R;
-use Blog\Lists\PostList;
-use Blog\Model\PostInterface;
-use Blog\Model\TagInterface;
-use Blog\View\MetaInterface;
 
 /**
  * Class BlogController
@@ -26,16 +28,22 @@ class BlogController extends AbstractController
             return $this->redirect($this->getRouteParser()->urlFor('blog'));
         }
 
-        /** @var PostList $posts */
-        $posts = $this->container->get(PostList::class);
+        /** @var PostRepository $repository */
+        $repository = $this->container->get(EntityManagerInterface::class)->getRepository(Post::class);
+        $count = $repository->count([]);
 
-        if ($page > 1)
-            $posts->setPage($page);
-
-        $posts->build();
-
-        if ($posts->getPage() > $posts->getTotalPages())
+        if ($count < 1)
             throw new HttpNotFoundException($request);
+
+        $pagination = new Pagination($page > 1 ? $page : 1);
+        $pagination->setCount($count);
+
+        if ($pagination->getPage() > $pagination->getTotalPages())
+            throw new HttpNotFoundException($request);
+
+        $posts = $repository->findBy([], [
+            'id' => 'DESC',
+        ], $pagination->getLimit(), $pagination->getOffset());
 
         $title = ['Блог'];
 
@@ -45,9 +53,8 @@ class BlogController extends AbstractController
         $this->container->get(MetaInterface::class)->setTitle($title);
 
         return $this->render($response, 'blog/index.phtml', [
-            'page' => $posts->getPage(),
-            'totalPages' => $posts->getTotalPages(),
-            'posts' => $posts->getItems(),
+            'posts' => $posts,
+            'pagination' => $pagination,
             'paginationRoute' => 'blog',
             'paginationData' => [],
         ]);
@@ -56,16 +63,15 @@ class BlogController extends AbstractController
     public function post(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
         $slug = $args['slug'];
+        $repository = $this->container->get(EntityManagerInterface::class)->getRepository(Post::class);
 
-        $post = R::findOne('post', 'slug = :slug', [
+        $post = $repository->findOneBy([
             'slug' => $slug,
         ]);
 
         if (!$post)
             throw new HttpNotFoundException($request);
 
-        /** @var PostInterface $post */
-        $post = $post->box();
         $this->container->get(MetaInterface::class)->setTitle($post->getName());
 
         return $this->render($response, 'blog/post.phtml', [
@@ -84,37 +90,32 @@ class BlogController extends AbstractController
             return $this->redirect($this->getRouteParser()->urlFor('tag', ['name' => $name]));
         }
 
-        $tag = R::findOne('tag', 'name = :name', [
+        /** @var TagRepository $tagsRepository */
+        $tagsRepository = $this->container->get(EntityManagerInterface::class)->getRepository(Tag::class);
+
+        $tag = $tagsRepository->findOneBy([
             'name' => $name,
         ]);
 
         if (!$tag)
             throw new HttpNotFoundException($request);
 
-        /** @var TagInterface $tag */
-        $tag = $tag->box();
+        /** @var PostRepository $repository */
+        $repository = $this->container->get(EntityManagerInterface::class)->getRepository(Post::class);
+        $count = $repository->countByTagId($tag->getId());
 
-        /** @var PostList $posts */
-        $posts = $this->container->get(PostList::class);
-
-        if ($page > 1)
-            $posts->setPage($page);
-
-        $posts->setParameters([
-            'sql' => "
-            join post_tag l
-                on l.post_id = post.id
-                and l.tag_id = :tag_id
-            ",
-            'bind' => [
-                'tag_id' => $tag->getId(),
-            ],
-        ]);
-
-        $posts->build();
-
-        if ($posts->getPage() > $posts->getTotalPages())
+        if ($count < 1)
             throw new HttpNotFoundException($request);
+
+        $pagination = new Pagination($page > 1 ? $page : 1);
+        $pagination->setCount($count);
+
+        if ($pagination->getPage() > $pagination->getTotalPages())
+            throw new HttpNotFoundException($request);
+
+        $posts = $repository->findByTagId($tag->getId(), [
+            'post.id' => 'DESC',
+        ], $pagination->getLimit(), $pagination->getOffset());
 
         $title = [$tag->getTitle() ?? $tag->getName()];
 
@@ -125,9 +126,8 @@ class BlogController extends AbstractController
 
         return $this->render($response, 'blog/tag.phtml', [
             'tag' => $tag,
-            'page' => $posts->getPage(),
-            'totalPages' => $posts->getTotalPages(),
-            'posts' => $posts->getItems(),
+            'posts' => $posts,
+            'pagination' => $pagination,
             'paginationRoute' => 'tag',
             'paginationData' => [
                 'name' => $tag->getName(),

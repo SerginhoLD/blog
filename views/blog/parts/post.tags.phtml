@@ -7,30 +7,24 @@ use Blog\Model\TagInterface;
  * @var TagInterface[] $tags
  */
 
-if (empty($tags))
+if (!count($tags))
     return;
 
 ?>
 <div class="post__meta">
     🏷️
     <?php
-    $item = current($tags);
+    $htmlTags = [];
 
-    /** @var TagInterface $item */
-    while ($item)
+    foreach ($tags as $tag)
     {
         $itemUrl = $routeParser->urlFor('tag', [
-            'name' => $item->getName(),
+            'name' => $tag->getName(),
         ]);
 
-        $itemLink = sprintf('<a href="%s">%s</a>', $itemUrl, htmlspecialchars($item->getTitle() ?? $item->getName()));
-
-        $item = next($tags);
-
-        if ($item)
-            $itemLink .= ', ';
-
-        echo $itemLink;
+        $htmlTags[] = sprintf('<a href="%s">%s</a>', $itemUrl, htmlspecialchars($tag->getTitle() ?? $tag->getName()));
     }
+
+    echo implode(', ', $htmlTags);
     ?>
 </div>

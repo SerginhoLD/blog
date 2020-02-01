@@ -22,7 +22,7 @@ $postId = $post->getId();
     <?php if ($postId > 0): ?>
         <div class="form__row">
             ID: <?= $post->getId() ?><br>
-            Дата создания: <?= $post->getCreatedAt() ?>
+            Дата создания: <?= $post->getCreatedAt()->format('Y-m-d h:i:s') ?>
         </div>
     <?php endif; ?>
     <div class="form__row">
@@ -46,11 +46,10 @@ $postId = $post->getId();
         <select name="tags[]" size="5" multiple>
             <option>Выберите тег:</option>
             <?php
-            $postTags = $post->getTags();
-
-            foreach ($tags as $tagId => $tag)
+            foreach ($tags as $tag)
             {
-                $selected = isset($postTags[$tagId]) ? 'selected' : null;
+                $tagId = $tag->getId();
+                $selected = $post->getTags()->contains($tag) ? 'selected' : null;
                 ?>
                 <option value="<?= $tagId ?>" <?= $selected ?>><?= htmlspecialchars($tag->getName()) ?> [<?= $tagId ?>]</option>
                 <?php

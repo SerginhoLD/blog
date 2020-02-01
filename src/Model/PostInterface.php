@@ -1,6 +1,8 @@
 <?php
 namespace Blog\Model;
 
+use Doctrine\Common\Collections\Collection;
+
 /**
  * Interface PostInterface
  * @package Blog\Model
@@ -33,9 +35,9 @@ interface PostInterface
     public function getText(): ?string;
 
     /**
-     * @return string|null
+     * @return \DateTimeInterface|null
      */
-    public function getCreatedAt(): ?string;
+    public function getCreatedAt(): ?\DateTimeInterface;
 
     /**
      * @return string|null
@@ -43,7 +45,7 @@ interface PostInterface
     public function getFullText(): ?string;
 
     /**
-     * @return TagInterface[]
+     * @return Collection|TagInterface[]
      */
-    public function getTags(): array;
+    public function getTags(): Collection;
 }

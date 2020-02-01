@@ -1,5 +1,10 @@
 <?php
-use UltraLite\Container\Container;
+use Blog\Controller;
+use Blog\Formatter;
+use Blog\Markdown;
+use Blog\Nav;
+use Blog\View;
+use Doctrine\ORM;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\Factory\AppFactory;
 use Slim\Interfaces\CallableResolverInterface;
@@ -7,19 +12,16 @@ use Slim\CallableResolver;
 use Slim\Interfaces\RouteCollectorInterface;
 use Slim\Routing\RouteCollector;
 use Slim\Views\PhpRenderer;
-use Blog\Nav;
-use Blog\View;
-use Blog\Markdown;
-use Blog\Lists\PostList;
-use Blog\Formatter;
-use Blog\Controller;
+use UltraLite\Container\Container;
 
 /**
  * @var string $projectDir
  * @var Container $di
  */
 
-require_once __DIR__ . '/db.php';
+$di->set('config', function () use ($projectDir) {
+    return require __DIR__ . '/config.php';
+});
 
 $di->set(ResponseFactoryInterface::class, function () {
     return AppFactory::determineResponseFactory();
@@ -35,6 +37,14 @@ $di->set(RouteCollectorInterface::class, function () use ($di) {
         $di->get(CallableResolverInterface::class),
         $di
     );
+});
+
+$di->set(ORM\EntityManagerInterface::class, function () use ($di, $projectDir) {
+    $config = $di->get('config')['doctrine'];
+    $metadataConfig = ORM\Tools\Setup::createAnnotationMetadataConfiguration($config['metadata_paths'], $config['dev_mode'], $config['proxy_dir'], null, false);
+    //$metadataConfig->setProxyNamespace('Blog\Entity\Proxy');
+    //$metadataConfig->setAutoGenerateProxyClasses($config['dev_mode']);
+    return ORM\EntityManager::create($config['connection'], $metadataConfig);
 });
 
 $di->set(View\AssetInterface::class, function() use ($projectDir) {
@@ -68,10 +78,6 @@ $di->set('renderer', function() use ($projectDir, $di) {
         'routeParser' => $di->get(RouteCollectorInterface::class)->getRouteParser(),
         'dateFormatter' => $di->get(Formatter\DateFormatterInterface::class),
     ], 'layout.phtml');
-});
-
-$di->set(PostList::class, function() use ($di) {
-    return new PostList();
 });
 
 /*

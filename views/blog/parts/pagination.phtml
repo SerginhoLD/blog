@@ -1,17 +1,21 @@
 <?php
+use Blog\Nav\PaginationInterface;
 use Slim\Interfaces\RouteParserInterface;
 
 /**
  * @var RouteParserInterface $routeParser
- * @var int $page
- * @var int $totalPages
+ * @var PaginationInterface $pagination
  * @var string $paginationRoute
  * @var array $paginationData
  */
 
+$totalPages = $pagination->getTotalPages();
+
 if ($totalPages > 1)
 {
     echo '<div class="pagination">Страницы: ';
+
+    $page = $pagination->getPage();
 
     for ($i = 1; $i <= $totalPages; $i++)
     {
