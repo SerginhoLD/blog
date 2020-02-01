@@ -1,20 +1,18 @@
 <?php
-use Slim\Views\PhpRenderer;
-use Slim\Interfaces\RouteParserInterface;
 use Blog\Markdown;
-use Blog\Formatter\DateFormatterInterface;
 use Blog\Model\PostInterface;
 use Blog\Model\TagInterface;
+use Blog\Nav\QueryPaginator;
+use Slim\Interfaces\RouteParserInterface;
+use Slim\Views\PhpRenderer;
 
 /**
  * @var PhpRenderer $this
  * @var RouteParserInterface $routeParser
  * @var Markdown\ParserInterface $markdown
- * @var DateFormatterInterface $dateFormatter
  * @var TagInterface $tag
  * @var PostInterface[] $posts
- * @var int $page
- * @var int $totalPages
+ * @var QueryPaginator $paginator
  * @var string $paginationRoute
  * @var array $paginationData
  */

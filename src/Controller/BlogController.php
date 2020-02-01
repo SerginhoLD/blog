@@ -4,6 +4,7 @@ namespace Blog\Controller;
 use Blog\Entity\Post;
 use Blog\Entity\Tag;
 use Blog\Nav\Pagination;
+use Blog\Nav\QueryPaginator;
 use Blog\Repository\PostRepository;
 use Blog\Repository\TagRepository;
 use Blog\View\MetaInterface;
@@ -30,20 +31,18 @@ class BlogController extends AbstractController
 
         /** @var PostRepository $repository */
         $repository = $this->container->get(EntityManagerInterface::class)->getRepository(Post::class);
-        $count = $repository->count([]);
+        $paginator = new QueryPaginator($repository->createQueryBuilder('post')->orderBy('post.id', 'DESC'));
+        $count = $paginator->count();
 
         if ($count < 1)
             throw new HttpNotFoundException($request);
 
-        $pagination = new Pagination($page > 1 ? $page : 1);
-        $pagination->setCount($count);
+        $paginator->setPage($page > 1 ? $page : 1);
 
-        if ($pagination->getPage() > $pagination->getTotalPages())
+        if ($paginator->getPage() > $paginator->getTotalPages())
             throw new HttpNotFoundException($request);
 
-        $posts = $repository->findBy([], [
-            'id' => 'DESC',
-        ], $pagination->getLimit(), $pagination->getOffset());
+        $posts = $paginator->getIterator()->getArrayCopy();
 
         $title = ['Блог'];
 
@@ -54,7 +53,7 @@ class BlogController extends AbstractController
 
         return $this->render($response, 'blog/index.phtml', [
             'posts' => $posts,
-            'pagination' => $pagination,
+            'paginator' => $paginator,
             'paginationRoute' => 'blog',
             'paginationData' => [],
         ]);
@@ -102,20 +101,18 @@ class BlogController extends AbstractController
 
         /** @var PostRepository $repository */
         $repository = $this->container->get(EntityManagerInterface::class)->getRepository(Post::class);
-        $count = $repository->countByTagId($tag->getId());
+        $paginator = new QueryPaginator($repository->createQueryByTagId($tag->getId())->orderBy('post.id', 'DESC'));
+        $count = $paginator->count();
 
         if ($count < 1)
             throw new HttpNotFoundException($request);
 
-        $pagination = new Pagination($page > 1 ? $page : 1);
-        $pagination->setCount($count);
+        $paginator->setPage($page > 1 ? $page : 1);
 
-        if ($pagination->getPage() > $pagination->getTotalPages())
+        if ($paginator->getPage() > $paginator->getTotalPages())
             throw new HttpNotFoundException($request);
 
-        $posts = $repository->findByTagId($tag->getId(), [
-            'post.id' => 'DESC',
-        ], $pagination->getLimit(), $pagination->getOffset());
+        $posts = $paginator->getIterator()->getArrayCopy();
 
         $title = [$tag->getTitle() ?? $tag->getName()];
 
@@ -127,7 +124,7 @@ class BlogController extends AbstractController
         return $this->render($response, 'blog/tag.phtml', [
             'tag' => $tag,
             'posts' => $posts,
-            'pagination' => $pagination,
+            'paginator' => $paginator,
             'paginationRoute' => 'tag',
             'paginationData' => [
                 'name' => $tag->getName(),
