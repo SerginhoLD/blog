@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Blog\Repository;
 
-use Blog\Model\TagInterface;
+use Blog\Entity\TagInterface;
 use Doctrine\ORM\EntityRepository;
 
 /**

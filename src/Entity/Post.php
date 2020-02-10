@@ -3,8 +3,6 @@
 
 namespace Blog\Entity;
 
-use Blog\Model\PostInterface;
-use Blog\Model\TagInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

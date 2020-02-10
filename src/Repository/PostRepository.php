@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Blog\Repository;
 
-use Blog\Model\PostInterface;
+use Blog\Entity\PostInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 

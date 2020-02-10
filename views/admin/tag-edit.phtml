@@ -1,12 +1,10 @@
 <?php
-use Slim\Views\PhpRenderer;
 use Slim\Interfaces\RouteParserInterface;
 use Blog\Markdown;
 use Blog\Formatter\DateFormatterInterface;
-use Blog\Model\TagInterface;
+use Blog\Entity\TagInterface;
 
 /**
- * @var PhpRenderer $this
  * @var RouteParserInterface $routeParser
  * @var Markdown\ParserInterface $markdown
  * @var DateFormatterInterface $dateFormatter

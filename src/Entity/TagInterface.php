@@ -1,5 +1,5 @@
 <?php
-namespace Blog\Model;
+namespace Blog\Entity;
 
 /**
  * Interface TagInterface
