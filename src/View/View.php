@@ -41,27 +41,27 @@ class View implements ViewInterface
      */
     public function render(ResponseInterface $response, string $template, array $data = []): ResponseInterface
     {
-        $response->getBody()->write($this->renderTpl($template, $data, true));
+        $response->getBody()->write($this->renderTpl($template, $data, $this->layout));
         return $response;
     }
 
     /**
      * @param string $template
      * @param array $data
-     * @param bool $withLayout
+     * @param string|null $layout
      * @return string
      * @throws \Throwable
      */
-    public function renderTpl(string $template, array $data = [], bool $withLayout = false): string
+    public function renderTpl(string $template, array $data = [], string $layout = null): string
     {
         $file = $this->templatePath . $template;
 
         $data = array_merge($this->attributes, $data);
         $content = $this->includeTpl($file, $data);
 
-        if ($withLayout && $this->layout !== null)
+        if ($layout !== null)
         {
-            $file = $this->templatePath . $this->layout;
+            $file = $this->templatePath . $layout;
             $data['content'] = $content;
             $content = $this->includeTpl($file, $data);
         }

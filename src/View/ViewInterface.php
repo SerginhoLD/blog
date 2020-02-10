@@ -20,8 +20,8 @@ interface ViewInterface
     /**
      * @param string $template
      * @param array $data
-     * @param bool $withLayout
+     * @param string|null $layout
      * @return string
      */
-    public function renderTpl(string $template, array $data = [], bool $withLayout = false): string;
+    public function renderTpl(string $template, array $data = [], string $layout = null): string;
 }
