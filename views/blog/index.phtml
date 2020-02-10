@@ -11,11 +11,10 @@ use Slim\Interfaces\RouteParserInterface;
  * @var RouteParserInterface $routeParser
  * @var Markdown\ParserInterface $markdown
  * @var DateFormatterInterface $dateFormatter
- * @var PostInterface[] $posts
- * @var QueryPaginator $paginator
+ * @var QueryPaginator|PostInterface[] $paginator
  */
 
-foreach ($posts as $post)
+foreach ($paginator as $post)
 {
     $postUrl = $routeParser->urlFor('post', [
         'slug' => $post->getSlug(),

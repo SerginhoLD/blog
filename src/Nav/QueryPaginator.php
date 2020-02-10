@@ -76,7 +76,7 @@ class QueryPaginator extends Paginator implements PaginatorInterface
      * @param string|null $route
      * @return $this
      */
-    public function setRoute(?string $route): self
+    public function setRoute(string $route): self
     {
         $this->route = $route;
         return $this;

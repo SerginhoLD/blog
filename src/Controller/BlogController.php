@@ -42,9 +42,6 @@ class BlogController extends AbstractController
             throw new HttpNotFoundException($request);
 
         $paginator->setRoute('blog');
-
-        $posts = $paginator->getIterator()->getArrayCopy();
-
         $title = ['Блог'];
 
         if ($page > 1)
@@ -53,7 +50,6 @@ class BlogController extends AbstractController
         $this->container->get(MetaInterface::class)->setTitle($title);
 
         return $this->render($response, 'blog/index.phtml', [
-            'posts' => $posts,
             'paginator' => $paginator,
         ]);
     }
@@ -115,8 +111,6 @@ class BlogController extends AbstractController
             'name' => $tag->getName(),
         ]);
 
-        $posts = $paginator->getIterator()->getArrayCopy();
-
         $title = [$tag->getTitle() ?? $tag->getName()];
 
         if ($page > 1)
@@ -126,7 +120,6 @@ class BlogController extends AbstractController
 
         return $this->render($response, 'blog/tag.phtml', [
             'tag' => $tag,
-            'posts' => $posts,
             'paginator' => $paginator,
         ]);
     }
