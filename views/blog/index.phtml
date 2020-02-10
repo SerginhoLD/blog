@@ -13,8 +13,6 @@ use Slim\Interfaces\RouteParserInterface;
  * @var DateFormatterInterface $dateFormatter
  * @var PostInterface[] $posts
  * @var QueryPaginator $paginator
- * @var string $paginationRoute
- * @var array $paginationData
  */
 
 foreach ($posts as $post)
@@ -51,6 +49,4 @@ foreach ($posts as $post)
 
 echo $this->renderTpl('blog/pagination.phtml', [
     'paginator' => $paginator,
-    'paginationRoute' => $paginationRoute,
-    'paginationData' => $paginationData,
 ]);

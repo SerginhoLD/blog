@@ -5,8 +5,6 @@ use Slim\Interfaces\RouteParserInterface;
 /**
  * @var RouteParserInterface $routeParser
  * @var QueryPaginator $paginator
- * @var string $paginationRoute
- * @var array $paginationData
  */
 
 $totalPages = $paginator->getTotalPages();
@@ -23,10 +21,7 @@ if ($totalPages > 1)
 
         if ($paginationTagOpen === 'a')
         {
-            if ($i > 1)
-                $paginationData['page'] = $i;
-
-            $paginationTagOpen .= sprintf(' href="%s"', $routeParser->urlFor($paginationRoute, $paginationData));
+            $paginationTagOpen .= sprintf(' href="%s"', $paginator->getUrl($routeParser, $i));
         }
 
         echo '<' . $paginationTagOpen . '>' . $i . '</' . $paginationTag . '>';

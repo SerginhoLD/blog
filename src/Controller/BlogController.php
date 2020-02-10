@@ -41,6 +41,8 @@ class BlogController extends AbstractController
         if ($paginator->getPage() > $paginator->getTotalPages())
             throw new HttpNotFoundException($request);
 
+        $paginator->setRoute('blog');
+
         $posts = $paginator->getIterator()->getArrayCopy();
 
         $title = ['Блог'];
@@ -53,8 +55,6 @@ class BlogController extends AbstractController
         return $this->render($response, 'blog/index.phtml', [
             'posts' => $posts,
             'paginator' => $paginator,
-            'paginationRoute' => 'blog',
-            'paginationData' => [],
         ]);
     }
 
@@ -111,6 +111,10 @@ class BlogController extends AbstractController
         if ($paginator->getPage() > $paginator->getTotalPages())
             throw new HttpNotFoundException($request);
 
+        $paginator->setRoute('tag')->setRouteData([
+            'name' => $tag->getName(),
+        ]);
+
         $posts = $paginator->getIterator()->getArrayCopy();
 
         $title = [$tag->getTitle() ?? $tag->getName()];
@@ -124,10 +128,6 @@ class BlogController extends AbstractController
             'tag' => $tag,
             'posts' => $posts,
             'paginator' => $paginator,
-            'paginationRoute' => 'tag',
-            'paginationData' => [
-                'name' => $tag->getName(),
-            ],
         ]);
     }
 
