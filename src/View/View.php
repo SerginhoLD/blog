@@ -54,16 +54,13 @@ class View implements ViewInterface
      */
     public function renderTpl(string $template, array $data = [], string $layout = null): string
     {
-        $file = $this->templatePath . $template;
-
         $data = array_merge($this->attributes, $data);
-        $content = $this->includeTpl($file, $data);
+        $content = $this->includeTpl($template, $data);
 
         if ($layout !== null)
         {
-            $file = $this->templatePath . $layout;
             $data['content'] = $content;
-            $content = $this->includeTpl($file, $data);
+            $content = $this->includeTpl($layout, $data);
         }
 
         return $content;
@@ -71,19 +68,19 @@ class View implements ViewInterface
 
 
     /**
-     * @param string $file
+     * @param string $template
      * @param array $data
      * @return string
      * @throws \Throwable
      */
-    private function includeTpl(string $file, array $data): string
+    private function includeTpl(string $template, array $data): string
     {
         try
         {
             ob_start();
             extract($data);
 
-            require $file;
+            require $this->templatePath . $template;
 
             $content = ob_get_clean();
             return $content === false ? '' : $content;
