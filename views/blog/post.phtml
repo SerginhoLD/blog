@@ -1,12 +1,12 @@
 <?php
-use Slim\Views\PhpRenderer;
-use Slim\Interfaces\RouteParserInterface;
-use Blog\Markdown;
 use Blog\Formatter\DateFormatterInterface;
+use Blog\Markdown;
 use Blog\Model\PostInterface;
+use Blog\View\ViewInterface;
+use Slim\Interfaces\RouteParserInterface;
 
 /**
- * @var PhpRenderer $this
+ * @var ViewInterface $this
  * @var RouteParserInterface $routeParser
  * @var PostInterface $post
  * @var Markdown\ParserInterface $markdown
@@ -19,8 +19,9 @@ use Blog\Model\PostInterface;
     <div class="post__date"><?= $dateFormatter->format($post->getCreatedAt()) ?></div>
     <h1 class="post__title"><?= htmlspecialchars($post->getName()) ?></h1>
     <?php
-    $tags = $post->getTags();
-    require __DIR__ . '/parts/post.tags.phtml';
+    echo $this->renderTpl('blog/post.tags.phtml', [
+        'tags' => $post->getTags(),
+    ]);
     ?>
     <div class="post__content post__content--full">
         <?= $markdown->parse($post->getFullText()) ?>

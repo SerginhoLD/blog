@@ -3,11 +3,11 @@ use Blog\Formatter\DateFormatterInterface;
 use Blog\Markdown;
 use Blog\Model\PostInterface;
 use Blog\Nav\QueryPaginator;
+use Blog\View\ViewInterface;
 use Slim\Interfaces\RouteParserInterface;
-use Slim\Views\PhpRenderer;
 
 /**
- * @var PhpRenderer $this
+ * @var ViewInterface $this
  * @var RouteParserInterface $routeParser
  * @var Markdown\ParserInterface $markdown
  * @var DateFormatterInterface $dateFormatter
@@ -30,8 +30,9 @@ foreach ($posts as $post)
             <?= htmlspecialchars($post->getName()) ?></a>
         </h2>
         <?php
-        $tags = $post->getTags();
-        require __DIR__ . '/parts/post.tags.phtml';
+        echo $this->renderTpl('blog/post.tags.phtml', [
+            'tags' => $post->getTags(),
+        ]);
 
         $preview = $post->getPreview();
 
@@ -48,4 +49,8 @@ foreach ($posts as $post)
     <?php
 }
 
-require __DIR__ . '/parts/pagination.phtml';
+echo $this->renderTpl('blog/pagination.phtml', [
+    'paginator' => $paginator,
+    'paginationRoute' => $paginationRoute,
+    'paginationData' => $paginationData,
+]);

@@ -3,7 +3,6 @@ namespace Blog\Controller;
 
 use Blog\Entity\Post;
 use Blog\Entity\Tag;
-use Blog\Nav\Pagination;
 use Blog\Nav\QueryPaginator;
 use Blog\Repository\PostRepository;
 use Blog\Repository\TagRepository;

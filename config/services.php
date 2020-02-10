@@ -11,7 +11,6 @@ use Slim\Interfaces\CallableResolverInterface;
 use Slim\CallableResolver;
 use Slim\Interfaces\RouteCollectorInterface;
 use Slim\Routing\RouteCollector;
-use Slim\Views\PhpRenderer;
 use UltraLite\Container\Container;
 
 /**
@@ -69,8 +68,8 @@ $di->set(Formatter\DateFormatterInterface::class, function() {
     return new Formatter\DateFormatter();
 });
 
-$di->set('renderer', function() use ($projectDir, $di) {
-    return new PhpRenderer($projectDir . '/views', [
+$di->set(View\ViewInterface::class, function() use ($projectDir, $di) {
+    return new View\View($projectDir . '/views', [
         'asset' => $di->get(View\AssetInterface::class),
         'meta' => $di->get(View\MetaInterface::class),
         'markdown' => $di->get(Markdown\ParserInterface::class),

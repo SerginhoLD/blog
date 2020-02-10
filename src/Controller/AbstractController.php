@@ -3,12 +3,12 @@ declare(strict_types = 1);
 
 namespace Blog\Controller;
 
+use Blog\View\ViewInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\Interfaces\RouteCollectorInterface;
 use Slim\Interfaces\RouteParserInterface;
-use Slim\Views\PhpRenderer;
 
 /**
  * Class AbstractController
@@ -17,7 +17,7 @@ use Slim\Views\PhpRenderer;
 abstract class AbstractController
 {
     /** @var ContainerInterface */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
      * @param ContainerInterface $container
@@ -45,14 +45,11 @@ abstract class AbstractController
      * @param string $template
      * @param array $data
      * @return ResponseInterface
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
      */
     protected function render(ResponseInterface $response, string $template, array $data = []): ResponseInterface
     {
-        /** @var PhpRenderer $renderer */
-        $renderer = $this->container->get('renderer');
-        return $renderer->render($response, $template, $data);
+        $view = $this->container->get(ViewInterface::class);
+        return $view->render($response, $template, $data);
     }
 
     /**

@@ -1,20 +1,9 @@
 <?php
-use Blog\Markdown;
-use Blog\Model\PostInterface;
-use Blog\Model\TagInterface;
-use Blog\Nav\QueryPaginator;
-use Slim\Interfaces\RouteParserInterface;
-use Slim\Views\PhpRenderer;
+use Blog\View\ViewInterface;
 
 /**
- * @var PhpRenderer $this
- * @var RouteParserInterface $routeParser
- * @var Markdown\ParserInterface $markdown
- * @var TagInterface $tag
- * @var PostInterface[] $posts
- * @var QueryPaginator $paginator
- * @var string $paginationRoute
- * @var array $paginationData
+ * @var ViewInterface $this
+ * @var array $data
  */
 
-require __DIR__ . '/index.phtml';
+echo $this->renderTpl('blog/index.phtml', $data);
